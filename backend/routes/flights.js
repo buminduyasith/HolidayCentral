@@ -22,3 +22,5 @@ var flightScheme = mongoose.Schema({
     isRefundable: Boolean,
     tripType: String,
 });
+
+var Flight = mongoose.model("flights", flightScheme)

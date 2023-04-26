@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser')
 const app = express();
 const port = process.env.PORT || 5000;
 
+const flights = require('./routs/flights.js');
+
 app.use(cookieParser())
 
 app.get('/', (req,res)=>{
@@ -15,6 +17,8 @@ app.get('/', (req,res)=>{
         "done":true
     })
 });
+
+app.use('/flights', flights);
 
 app.get('/login', (req,res)=>{
 

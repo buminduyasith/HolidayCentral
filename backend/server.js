@@ -1,60 +1,41 @@
-const express = require('express');
-const dotenv = require('dotenv').config();
-const cookieParser = require('cookie-parser')
-const authController = require('./controllers/authController.js');
+const express = require("express");
+const dotenv = require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const authController = require("./controllers/authController");
+const mongoose = require("mongoose");
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-
-    console.log('Cookies: ', req.cookies.token)
-
-    return res.status(200).json({
-        "done": true
-    })
+app.get("/", (req, res, next) => {
+    console.log("Cookies: ", req.cookies.token);
+    res.sendStatus(200);
 });
 
+app.use("/auth", authController);
 
-
-app.get('/login', (req, res) => {
-
-    res.cookie("token", "123", {
-
-        httpOnly: true,
-        maxAge: 100000
+function errorHandlers(err, req, res, next) {
+    res.status(res.statusCode || 500);
+    console.log("e", process.env.ERRORSTACK);
+    res.json({
+        message: err.message,
+        stack: process.env.ERRORSTACK === "true" ? err.stack : "",
     });
+}
 
-    return res.json({
-        "islogged": true
+app.use(errorHandlers);
+
+mongoose
+    .connect(process.env.CONNECTIONSTRING)
+    .then(() => {
+        console.log("connected to db");
+        app.listen(port, async () => {
+            console.log(`server running on port ${port}`);
+        });
     })
-});
-
-app.get('/logout', (req, res) => {
-
-    res.clearCookie("token");
-    res.json({
-        "islogged": false
-    })
-});
-
-app.post('/signup', (req, res) => {
-
-    console.log(req.body.username)
-    res.json({
-        "islogged": false
-    })
-});
-
-
-app.use('/auth', authController)
-
-
-
-app.listen(port, () => {
-
-    console.log(`server running on port ${port}`);
-});
+    .catch((error) => {
+        console.log("not connected to db", error);
+    });

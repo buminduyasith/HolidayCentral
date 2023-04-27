@@ -1,5 +1,4 @@
-const mongoose = require("mongoose")
-var express = require('express');
+const mongoose = require("mongoose");
 
 // tripType -> one way | round trip
 // roundBackfromTerminal -> can be empty if one way
@@ -24,4 +23,4 @@ var flightScheme = mongoose.Schema({
     tripType: String,
 });
 
-var Flight = mongoose.model("flights", flightScheme)
+module.exports = mongoose.model("flights", flightScheme);

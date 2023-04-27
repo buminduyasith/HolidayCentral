@@ -21,6 +21,7 @@ var flightScheme = mongoose.Schema({
     allowedMaxBaggageWeight: String,
     isRefundable: Boolean,
     tripType: String,
+    class: String,
 });
 
 module.exports = mongoose.model("flights", flightScheme);

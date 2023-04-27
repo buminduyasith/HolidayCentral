@@ -108,6 +108,19 @@ export default function SearchFlights() {
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">Please provide a valid Input</Form.Control.Feedback>
               </Form.Group>
+              <Form.Group as={Col} md="4" controlId="validationCustom01">
+                <Form.Label>Cabin Class</Form.Label>
+                <Form.Control
+                  required
+                  as="select"
+                  placeholder="From"
+                >
+                  <option value="FC">First Class</option>
+                  <option value="BC">Business Class</option>
+                  <option value="E">Economy</option>
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">Please provide a valid Input</Form.Control.Feedback>
+              </Form.Group>
             </Row>
             <Button type="submit">Search</Button>
           </Form>

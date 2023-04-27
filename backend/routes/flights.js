@@ -6,6 +6,7 @@ var express = require('express');
 // roundBackToTerminal -> can be empty if one way
 
 var flightScheme = mongoose.Schema({
+    id: String,
     airline:  String,
     fromTerminal: String,
     toTerminal: String,

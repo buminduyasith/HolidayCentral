@@ -1,6 +1,7 @@
 import Layout from "@/components/layout/layout";
+import Link from "next/link";
 import React, { useState } from 'react';
-import { Container, Form, InputGroup, Row, Col, Button } from "react-bootstrap";
+import { Container, Form, InputGroup, Row, Col, Button, Card } from "react-bootstrap";
 
 
 export default function SearchFlights() {
@@ -26,9 +27,13 @@ export default function SearchFlights() {
                 <Form.Label>From Country</Form.Label>
                 <Form.Control
                   required
-                  type="text"
+                  as="select"
                   placeholder="From"
-                />
+                >
+                  <option value="DICTUM">Sri Lanka</option>
+                  <option value="CONSTANCY">Constancia</option>
+                  <option value="COMPLEMENT">Complemento</option>
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">Please provide a valid Location</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -77,41 +82,57 @@ export default function SearchFlights() {
                 <Form.Control.Feedback type="invalid">Please provide a valid Time</Form.Control.Feedback>
               </Form.Group>
             </Row>
-            {/* <Row className="mb-3">
-              <Form.Group as={Col} md="4" controlId="validationCustom03">
-                <Form.Label>City</Form.Label>
-                <Form.Control type="text" placeholder="City" required />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid city.
-                </Form.Control.Feedback>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="4" controlId="validationCustom01">
+                <Form.Label>Stops</Form.Label>
+                <Form.Control
+                  required
+                  as="select"
+                  placeholder="From"
+                >
+                  <option value="DICTUM">0</option>
+                  <option value="CONSTANCY">1</option>
+                  <option value="COMPLEMENT">2</option>
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">Please provide a valid Input</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="4" controlId="validationCustom04">
-                <Form.Label>State</Form.Label>
-                <Form.Control type="text" placeholder="State" required />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid state.
-                </Form.Control.Feedback>
+              <Form.Group as={Col} md="4" controlId="validationCustom01">
+                <Form.Label>Trip Type</Form.Label>
+                <Form.Control
+                  required
+                  as="select"
+                  placeholder="From"
+                >
+                  <option value="DICTUM">One Way</option>
+                  <option value="CONSTANCY">Round Trip</option>
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">Please provide a valid Input</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="4" controlId="validationCustom05">
-                <Form.Label>Zip</Form.Label>
-                <Form.Control type="text" placeholder="Zip" required />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid zip.
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Row> */}
-            {/* <Form.Group className="mb-3">
-              <Form.Check
-                required
-                label="Agree to terms and conditions"
-                feedback="You must agree before submitting."
-                feedbackType="invalid"
-              />
-            </Form.Group> */}
+            </Row>
             <Button type="submit">Search</Button>
           </Form>
         </Row>
-        <Row>Searcfh Results | All Flights</Row>
+        {/* Loop Row with all Flight Data */}
+        <Row style={{ paddingTop: '5vh' }}>
+          <Card style={{ width: '100%' }}>
+            <Card.Body>
+              <Card.Title>Airline</Card.Title>
+              <Card.Subtitle>FromTerminal --- ToTerminal && flightDuration</Card.Subtitle>
+              <Card.Text>
+                Other Flight Info like price, depArturertime, landingtime etc...
+              </Card.Text>
+              <Button variant="primary"> <Link
+                href={{
+                  pathname: "./checkout",
+                  query: {
+                    id: 1
+                  }
+                }}
+                as={'flights/flightscheckout'}
+              >Checkout</Link></Button>
+            </Card.Body>
+          </Card>
+        </Row>
       </Container>
     </Layout>
   )

@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const backOfficeUserSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required : [true, "id required"]
-    },
     firstName:  {
         type: String,
         required : [true, "FirstName required"]
@@ -23,7 +19,11 @@ const backOfficeUserSchema = new mongoose.Schema({
     },
     updatedDate: {
         type: Date
+    },
+    userId:{
+        type: String,
+        required : [true, "user id required"]
     }
 });
 
-module.exports = mongoose.model("BackOfficeUserSchema", backOfficeUserSchema);
+module.exports = mongoose.model("BackOfficeUsers", backOfficeUserSchema);

@@ -102,7 +102,7 @@ async function Signin(email, password){
         userId: user._id,
         email: user.email,
         token,
-        tokenExpirationTime:  new Date(now.getTime() + 30 * 60 * 1000) // token expiration time in UTC
+        tokenExpirationTime: new Date(Date.now() + 30 * 60 * 1000) // token expiration time in UTC
       };
 
     return signinResponse;

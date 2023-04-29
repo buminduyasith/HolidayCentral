@@ -15,6 +15,10 @@ function createNewUserDto(data, isError, status, msg) {
     };
 }
 
+function CreateUserDto(){
+    
+}
+
 module.exports = {
     createNewUserDto,
 };

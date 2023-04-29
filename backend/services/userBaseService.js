@@ -23,9 +23,9 @@ async function CreateUserAccount(email) {
     const newUserModel = {
         email,
         hashPassword: hashpwd,
-        Role: userRoles.BACKOFFICEUSER,
-        CreatedDate: Date.now(),
-        CreatedBy: "", // todo : fix this
+        role: userRoles.BACKOFFICEUSER,
+        createdDate: Date.now(),
+        createdBy: "", // todo : fix this
     };
 
     const newUser = new userModel(newUserModel);
@@ -76,6 +76,40 @@ function generatePassword(length) {
     return password;
 }
 
+async function Signin(email, password){
+    const user = await userModel.findOne({ email });
+    if (!user) {
+        throw new Error("Account does not exist.");
+    }
+
+    const isMatched = await bcrypt.compare(password, user.hashPassword);
+
+    console.log("isMatched", isMatched);
+
+    if(!isMatched){
+        throw new Error("Incorrect email or password.");
+    }
+
+    const userDto = {
+        email,
+        id : user.id,
+        role : user.role
+    }
+
+    const token = jwt.sign(userDto, process.env.TOKENSECRET, {expiresIn:'30m'})
+
+    const signinResponse = {
+        userId: user._id,
+        email: user.email,
+        token,
+        tokenExpirationTime:  new Date(now.getTime() + 30 * 60 * 1000) // token expiration time in UTC
+      };
+
+    return signinResponse;
+
+}
+
 module.exports = {
     CreateUserAccount,
+    Signin
 };

@@ -13,7 +13,7 @@ router.post("/signin", (req, res) => {
 
 router.post("/backoffice/signup", async (req, res, next) => {
     try {
-        const response = await CreateUserAccount(req.body.email);
+       const response = await CreateUserAccount(req.body.email);
         console.log("res", response);
 
         if (response.isError) {
@@ -21,8 +21,7 @@ router.post("/backoffice/signup", async (req, res, next) => {
             res.status(409);
             return next(error);
         }
-        console.log("user id", response.data.id)
-        await CreateBackofficeUser(req.body, response.data.id);
+        await CreateBackofficeUser(req.body, response.data);
         res.sendStatus(201);
     } catch (error) {
         res.status(400);

@@ -12,8 +12,10 @@ app.use(express.json());
 
 app.get("/", (req, res, next) => {
     console.log("Cookies: ", req.cookies.token);
+    
     res.sendStatus(200);
 });
+
 
 app.use("/auth", authController);
 

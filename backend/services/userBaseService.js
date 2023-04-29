@@ -31,8 +31,13 @@ async function CreateUserAccount(email) {
     const newUser = new userModel(newUserModel);
 
     const result = await newUser.save()
-
-    return createNewUserDto(result, false, 201, "user created");
+    
+    const user = {
+        email,
+        password,
+        userId : result.id
+    }
+    return createNewUserDto(user, false, 201, "user created");
 
     /*  bcrypt.hash(password, saltRounds, function (err, hash) {
         if (err) {

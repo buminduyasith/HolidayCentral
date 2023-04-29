@@ -1,5 +1,5 @@
 const userModel = require("../models/UserModel");
-const { createNewUserDto } = require("../services/commonService");
+const { CreateNewUserDto } = require("../services/commonService");
 const userRoles = require("../enums/userRoles");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
@@ -10,7 +10,7 @@ async function CreateUserAccount(email) {
     const isUserExist = await userModel.exists({ email });
     console.log("isUserExist", isUserExist);
     if (isUserExist) {
-        return createNewUserDto(null, true, 409, "email already taken.");
+        return CreateNewUserDto(null, true, 409, "email already taken.");
     }
 
     const password = generatePassword(8);
@@ -37,11 +37,11 @@ async function CreateUserAccount(email) {
         password,
         userId : result.id
     }
-    return createNewUserDto(user, false, 201, "user created");
+    return CreateNewUserDto(user, false, 201, "user created");
 
     /*  bcrypt.hash(password, saltRounds, function (err, hash) {
         if (err) {
-            return createNewUserDto(
+            return CreateNewUserDto(
                 null,
                 true,
                 400,
@@ -61,7 +61,7 @@ async function CreateUserAccount(email) {
 
         newUser.save().then((result) => {
             console.log("user result", result);
-            return createNewUserDto(result, false, 201, "user created");
+            return CreateNewUserDto(result, false, 201, "user created");
         });
     }); */
 }

@@ -19,15 +19,21 @@ app.get("/", (req, res, next) => {
 
 app.use("/auth", authController);
 
+function notFound(req, res, next) {
+    res.status(404);
+    const error = new Error('Not Found - ' + req.originalUrl);
+    next(error);
+  }
+
 function errorHandlers(err, req, res, next) {
     res.status(res.statusCode || 500);
-    console.log("e", process.env.ERRORSTACK);
     res.json({
         message: err.message,
         stack: process.env.ERRORSTACK === "true" ? err.stack : "",
     });
 }
 
+app.use(notFound);
 app.use(errorHandlers);
 
 mongoose

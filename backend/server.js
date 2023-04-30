@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const authController = require("./controllers/authController");
 const flightController = require("./controllers/flightController");
 const mongoose = require("mongoose");
 const authController = require("./controllers/authController");

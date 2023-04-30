@@ -1,13 +1,12 @@
-import Layout from "@/components/layout/layout";
 import React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
-export default function Home() {
+export default function dashboard() {
     const { data: session } = useSession();
     return (
         <section className="text-center">
             <div className="container">
-                <h1>Login</h1>
+                <h1>travel adgent Dashoboard</h1>
                 {session?.user ? (
                     <>
                         Signed in as {session.user.email} <br />

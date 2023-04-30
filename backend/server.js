@@ -1,5 +1,5 @@
 const express = require("express");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv").config({ path: "./.env.prod" });
 const cookieParser = require("cookie-parser");
 const authController = require("./controllers/authController");
 const flightController = require("./controllers/flightController")
@@ -42,4 +42,4 @@ mongoose
         console.log("not connected to db", error);
     });
 
-app.listen(port)
+app.listen(5500)

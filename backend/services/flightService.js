@@ -34,18 +34,24 @@ async function setFlightData(req, res, next) {
             })
         }
 
-        // Printing data
-        console.log(data)
-
-        res.sendStatus(201);
-
+        if (data.length > 0) {
+            flightModel.insertMany(data)
+                .then((docs) => {
+                    console.log(`${docs.length} documents saved to the database.`);
+                    res.sendStatus(201);
+                })
+                .catch((error) => {
+                    console.error(error);
+                    res.sendStatus(500);
+                });
+        } else {
+            res.sendStatus(500);
+        }
 
     } catch (error) {
         console.log(error)
         res.sendStatus(400);
     }
-
-    // res.sendStatus(201).send("Created");
 }
 
 module.exports = {

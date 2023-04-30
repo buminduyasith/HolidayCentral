@@ -1,4 +1,4 @@
-function createNewUserDto(data, isError, status, msg) {
+function CreateNewUserDto(data, isError, status, msg) {
     if (isError) {
         return {
             isError,
@@ -16,5 +16,5 @@ function createNewUserDto(data, isError, status, msg) {
 }
 
 module.exports = {
-    createNewUserDto,
+    CreateNewUserDto,
 };

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // roundBackfromTerminal -> can be empty if one way
 // roundBackToTerminal -> can be empty if one way
 
-var flightScheme = mongoose.Schema({
+var flightScheme = new mongoose.Schema({
     id: String,
     airline:  String,
     fromTerminal: String,

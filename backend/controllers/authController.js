@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { CreateBackofficeUser } = require("../services/backofficeuserService");
+const { CreateUserAccount } = require("../services/userBaseService");
 
 router.get("/", (req, res) => {
     res.sendStatus(200);
@@ -11,19 +12,22 @@ router.post("/signin", (req, res) => {
 });
 
 router.post("/backoffice/signup", async (req, res, next) => {
-    console.log("bo signup", req.body);
-    if (!req.body) {
-        res.sendStatus(403);
-    }
     try {
-       var x = await CreateBackofficeUser(req.body);
-       console.log("x",x)
+        const response = await CreateUserAccount(req.body.email);
+        console.log("res", response);
+
+        if (response.isError) {
+            const error = new Error(response.msg);
+            res.status(409);
+            return next(error);
+        }
+        console.log("user id", response.data.id)
+        await CreateBackofficeUser(req.body, response.data.id);
+        res.sendStatus(201);
     } catch (error) {
         res.status(400);
         next(error);
     }
-
-    res.json(req.body);
 });
 
 router.post("/travelagent/signup", (req, res) => {

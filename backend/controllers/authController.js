@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
 router.post("/signin", async (req, res, next) => {
     try {
+        console.log("signin request", req.body)
         const user = await Signin(req.body.email, req.body.password);
         res.status(200).json(user);
     } catch (error) {

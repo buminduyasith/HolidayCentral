@@ -65,6 +65,7 @@ async function Signin(email, password) {
     const signinResponse = {
         userId: user._id,
         email: user.email,
+        role:user.role,
         token,
         tokenExpirationTime: new Date(Date.now() + 30 * 60 * 1000), // token expiration time in UTC
     };

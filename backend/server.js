@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const authController = require("./controllers/authController");
+const backOfficeController = require("./controllers/backOfficeController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
 const {errorHandlers, notFound} = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
@@ -26,6 +27,8 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 });
 
 app.use("/auth", authController);
+
+app.use('/api/v1/backoffice', backOfficeController);
 
 app.use(notFound);
 app.use(errorHandlers);

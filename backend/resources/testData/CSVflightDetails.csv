@@ -1,0 +1,3 @@
+id,airline,fromTerminal,toTerminal,fromCountry,toCountry,roundBackfromTerminal,roundBackToTerminal,price,departureDateTime,landingDateTime,flightDuration,stops,allowedMaxBaggageWeight,isRefundable,tripType,class
+1,Sri lanka,A,B,LK,AUS,rbft1,rbft2,180000,4/30/2023 13:22,4/30/2023 13:22,5h,test,50kg,false,type1,bussines class
+2,Sri lanka,A,B,LK,AUS,rbft1,rbft2,180001,4/30/2023 13:22,4/30/2023 13:22,5h,test,50kg,false,type2,bussines class

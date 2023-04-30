@@ -12,8 +12,8 @@ const Signin = () => {
     const password = passwordRef.current.value;
     console.log("email",email)
     const result = await signIn("credentials",{
-        username:"ta1@gmail.com",
-        password:"qQ8W(Rmc",
+        username:email,
+        password:password,
         redirect: true,
         callbackUrl:"/auth/callback"
     })

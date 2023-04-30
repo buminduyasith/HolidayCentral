@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const authController = require("./controllers/authController");
+const flightController = require("./controllers/flightController")
 const mongoose = require("mongoose");
 
 const app = express();
@@ -16,6 +17,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.use("/auth", authController);
+app.use("/flights", flightController);
 
 function errorHandlers(err, req, res, next) {
     res.status(res.statusCode || 500);
@@ -39,3 +41,5 @@ mongoose
     .catch((error) => {
         console.log("not connected to db", error);
     });
+
+app.listen(port)

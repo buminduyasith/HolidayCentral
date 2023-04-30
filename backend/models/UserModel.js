@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     createdDate: Date,
     updatedDate: Date,
     createdBy: String,
+    isDefaultPwdChanged:Boolean
 });
 
 module.exports = mongoose.model("Users", userSchema);

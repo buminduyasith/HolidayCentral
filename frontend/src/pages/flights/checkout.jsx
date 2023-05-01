@@ -4,11 +4,20 @@ import { Container, Form, InputGroup, Row, Col, Button, Card, Accordion } from "
 import { useRouter } from 'next/router'
 import { FaUser, FaPlane, FaCreditCard } from 'react-icons/fa';
 import { BsCheckLg } from 'react-icons/bs'
+import axios from "axios";
 
 
 const Checkout = () => {
     const router = useRouter();
-    const [paymentDetails, setPaymentDetails] = useState({});
+    const [step, setStep] = useState(1);
+    const [mealType, setMealType] = useState('');
+    const [seating, setSeating] = useState('');
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [zip, setZip] = useState('');
+    const [country, setCountry] = useState('');
 
     const {
         id,
@@ -24,12 +33,79 @@ const Checkout = () => {
         allowedMaxBaggageWeight,
         isRefundable,
         departureDate,
-        landingDate
+        landingDate,
+        fromCountry,
+        toCountry,
+        tripType
     } = router.query
 
-    const handlePaymentDetailsSubmit = (event) => {
+    const handleNextStep = () => {
+        setStep(step + 1);
+    };
+
+    const mealTypeHandler = (event) => {
+        setMealType(event.target.value);
+    };
+    const seatingHandler = (event) => {
+        setSeating(event.target.value);
+    };
+
+    const emailhandler = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const nameHandler = (event) => {
+        setName(event.target.value);
+    };
+
+    const addressHandler = (event) => {
+        setAddress(event.target.value);
+    };
+
+    const cityHandler = (event) => {
+        setCity(event.target.value);
+    };
+
+    const zipHandler = (event) => {
+        setZip(event.target.value);
+    };
+
+    const countryHandler = (event) => {
+        setCountry(event.target.value);
+    };
+
+
+    const handlePaymentDetailsSubmit = async (event) => {
         event.preventDefault();
-        // handle payment details submission
+        const finalData = { mealType, seating, email, name, address, city, zip, country };
+
+        try {
+            const res = await axios.post("http://localhost:5000/flights/checkout", {
+                airline,
+                fromCountry,
+                toCountry,
+                price,
+                departureDate,
+                departureTime,
+                landingDate,
+                landingTime,
+                isRefundable,
+                tripType,
+                flightClass,
+                email,
+                name,
+                address,
+                city,
+                zip,
+                country,
+                mealType,
+                seating
+            });
+            console.log(res);
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
     return (
@@ -80,97 +156,112 @@ const Checkout = () => {
                             <Form>
                                 <Form.Group className="mb-3" controlId="mealType">
                                     <Form.Label>Meal Type</Form.Label>
-                                    <Form.Select>
-                                        <option>Vegetarian</option>
-                                        <option>Non-vegetarian</option>
-                                        <option>Halal</option>
-                                        <option>Kosher</option>
-                                    </Form.Select>
+                                    <Form.Control as="select" name="mealType" value={mealType} onChange={mealTypeHandler}>
+                                        <option value="Veg">Vegetarian</option>
+                                        <option value="nonVeg">Non-vegetarian</option>
+                                        <option value="halal">Halal</option>
+                                        <option value="kosher">Kosher</option>
+                                    </Form.Control>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="seatType">
                                     <Form.Label>Seat Type</Form.Label>
-                                    <Form.Select>
-                                        <option>Basic</option>
-                                        <option>Widow</option>
-                                        <option>Isle</option>
-                                        <option>Middle</option>
-                                    </Form.Select>
+                                    <Form.Control as="select" name="seating" value={seating} onChange={seatingHandler}>
+                                        <option value="basic">Basic</option>
+                                        <option value="window">Window</option>
+                                        <option value="isle">Isle</option>
+                                        <option value="middle">Middle</option>
+                                    </Form.Control>
                                 </Form.Group>
+                                <Button variant="primary" onClick={handleNextStep}>Next</Button>
                             </Form>
                         </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                        <Accordion.Header>
-                            <FaCreditCard className="me-2" />
-                            Payment Options
-                        </Accordion.Header>
-                        <Accordion.Body>
-                            <Form onSubmit={handlePaymentDetailsSubmit}>
-                                <Form.Group className="mb-3" controlId="nameOnCard">
-                                    <Form.Label>Name on Card</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter name on card" required />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="cardNumber">
-                                    <Form.Label>Card Number</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter card number" required />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="expirationDate">
-                                    <Form.Label>Expiration Date</Form.Label>
-                                    <Form.Control type="text" placeholder="MM/YY" required />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="cvv">
-                                    <Form.Label>CVV</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter CVV" required />
-                                </Form.Group>
-                                <Button variant="primary" type="submit">
-                                    Submit
-                                </Button>
-                            </Form>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="2">
-                        <Accordion.Header>
-                            <BsCheckLg className="me-2" />
-                            Checkout
-                        </Accordion.Header>
-                        <Accordion.Body>
-                            <Form>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
-                                    <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email" />
-                                </Form.Group>
+                    {step >= 2 && (
+                        <Accordion.Item eventKey="1">
+                            <Accordion.Header>
+                                <BsCheckLg className="me-2" />
+                                Checkout
+                            </Accordion.Header>
+                            <Accordion.Body>
+                                <Form>
+                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Label>Email address</Form.Label>
+                                        <Form.Control type="email" placeholder="Enter email" value={email} onChange={emailhandler} />
+                                    </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicName">
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter your name" />
-                                </Form.Group>
+                                    <Form.Group className="mb-3" controlId="formBasicName">
+                                        <Form.Label>Name</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter your name" value={name} onChange={nameHandler} />
+                                    </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicAddress">
-                                    <Form.Label>Address</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter your address" />
-                                </Form.Group>
+                                    <Form.Group className="mb-3" controlId="formBasicAddress">
+                                        <Form.Label>Address</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter your address" value={address} onChange={addressHandler} />
+                                    </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicCity">
-                                    <Form.Label>City</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter your city" />
-                                </Form.Group>
+                                    <Form.Group className="mb-3" controlId="seatType">
+                                        <Form.Label>Country</Form.Label>
+                                        <Form.Control as="select" name="seating" value={country} onChange={countryHandler}>
+                                            <option value="LK">Sri Lanka</option>
+                                            <option value="NL">NetherLands</option>
+                                            <option value="DE">Germany</option>
+                                            <option value="US">United States</option>
+                                        </Form.Control>
+                                    </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicZip">
-                                    <Form.Label>Zip code</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter your zip code" />
-                                </Form.Group>
+                                    <Form.Group className="mb-3" controlId="seatType">
+                                        <Form.Label>City</Form.Label>
+                                        <Form.Control as="select" name="seating" value={city} onChange={cityHandler}>
+                                            <option value="galle">Gale</option>
+                                            <option value="CMB">Colombo</option>
+                                            <option value="california">California</option>
+                                            <option value="Toronto">Toronto</option>
+                                        </Form.Control>
+                                    </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicCountry">
-                                    <Form.Label>Country</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter your country" />
-                                </Form.Group>
+                                    <Form.Group className="mb-3" controlId="formBasicZip">
+                                        <Form.Label>Zip code</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter your zip code" value={zip} onChange={zipHandler} />
+                                    </Form.Group>
 
-                                <Button variant="primary" type="submit">
-                                    Submit
-                                </Button>
-                            </Form>
-                        </Accordion.Body>
-                    </Accordion.Item>
+                                    <Button variant="primary" onClick={handleNextStep}>
+                                        Submit and Proceed
+                                    </Button>
+                                </Form>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    )}
+                    {step >= 3 && (
+                        <Accordion.Item eventKey="2">
+                            <Accordion.Header>
+                                <FaCreditCard className="me-2" />
+                                Payment Options
+                            </Accordion.Header>
+                            <Accordion.Body>
+                                <Form onSubmit={handlePaymentDetailsSubmit}>
+                                    <Form.Group className="mb-3" controlId="nameOnCard">
+                                        <Form.Label>Name on Card</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter name on card" required />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="cardNumber">
+                                        <Form.Label>Card Number</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter card number" required />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="expirationDate">
+                                        <Form.Label>Expiration Date</Form.Label>
+                                        <Form.Control type="text" placeholder="MM/YY" required />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="cvv">
+                                        <Form.Label>CVV</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter CVV" required />
+                                    </Form.Group>
+                                    <Button variant="primary" type="submit">
+                                        Submit
+                                    </Button>
+                                </Form>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    )}
                 </Accordion>
             </Container>
         </Layout>

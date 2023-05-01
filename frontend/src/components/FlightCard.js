@@ -19,7 +19,10 @@ const FlightCard = ({ flight }) => {
         allowedMaxBaggageWeight,
         isRefundable,
         departureDate,
-        landingDate
+        landingDate,
+        fromCountry,
+        toCountry,
+        tripType
     } = flight;
 
     return (
@@ -81,7 +84,10 @@ const FlightCard = ({ flight }) => {
                                                 allowedMaxBaggageWeight,
                                                 isRefundable,
                                                 departureDate,
-                                                landingDate
+                                                landingDate,
+                                                fromCountry,
+                                                toCountry,
+                                                tripType
                                             }
                                         }}
                                         as={'flights/flightscheckout'}

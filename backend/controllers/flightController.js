@@ -1,20 +1,30 @@
 const express = require("express");
 const router = express.Router();
-const { getAllFlights } = require("../services/flightService")
+const cors = require("cors");
+const { getAllFlights, getSearchAllFlights } = require("../services/flightService");
 
-router.get("/allflights", async (req, res) => {
+router.use(cors());
+
+router.get("/allflights", async (req, res, next) => {
     try {
-        const response = await getAllFlights(req, res);
+        const response = await getAllFlights();
         console.log("res", response);
-        res.send(response).sendStatus(200);
+        res.send(response).status(200);
     } catch (error) {
-        res.status(400);
+        res.status(500);
         next(error);
     }
 });
 
-router.get("/getflights", (req, res) => {
-    res.sendStatus(200);
+router.get("/searchflights", async (req, res, next) => {
+    try {
+        const response = await getSearchAllFlights(req)
+        console.log("res", response);
+        res.send(response).status(200);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+        next(error);
+    }
 });
 
 module.exports = router;

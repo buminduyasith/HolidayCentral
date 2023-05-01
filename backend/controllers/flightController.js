@@ -31,7 +31,7 @@ router.post("/checkout", async (req, res, next) => {
     try {
         const response = await createFlightCheckoutRecord(req)
         console.log("res", response);
-        res.status(201);
+        res.sendStatus(201);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
         next(error);

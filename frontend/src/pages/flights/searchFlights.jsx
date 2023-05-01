@@ -170,29 +170,7 @@ export default function SearchFlights() {
           </Form>
         </Row>
         {/* Loop Row with all Flight Data */}
-
         <FlightList flights={data} />
-        {/* <Row className="mt-4">
-          <Card style={{ width: '100%' }}>
-            <Card.Body>
-              <Card.Title>Airline</Card.Title>
-              <Card.Subtitle>FromTerminal --- ToTerminal && flightDuration</Card.Subtitle>
-              <Card.Text>
-                Other Flight Info like price, depArturertime, landingtime etc...
-              </Card.Text>
-              <Button variant="primary"> <Link
-                href={{
-                  pathname: "./checkout",
-                  query: {
-                    id: 1
-                  }
-                }}
-                as={'flights/flightscheckout'}
-              >Checkout</Link></Button>
-            </Card.Body>
-          </Card>
-        </Row> */}
-
       </Container>
     </Layout>
   )

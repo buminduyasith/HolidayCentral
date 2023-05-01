@@ -10,7 +10,22 @@ const Checkout = () => {
     const router = useRouter();
     const [paymentDetails, setPaymentDetails] = useState({});
 
-    const { id } = router.query
+    const {
+        id,
+        airline,
+        fromTerminal,
+        toTerminal,
+        flightDuration,
+        price,
+        departureTime,
+        landingTime,
+        stops,
+        class: flightClass,
+        allowedMaxBaggageWeight,
+        isRefundable,
+        departureDate,
+        landingDate
+    } = router.query
 
     const handlePaymentDetailsSubmit = (event) => {
         event.preventDefault();
@@ -25,33 +40,33 @@ const Checkout = () => {
                         <Card.Title className="fw-bold mb-4">Flight Details</Card.Title>
                         <Card.Subtitle className="mb-3">
                             <FaPlane className="me-2" />
-                            <span className="text-primary">Flight duration:</span> 15 hours
+                            <span className="text-primary">Flight duration:</span> {flightDuration} hours
                         </Card.Subtitle>
                         <hr className="my-4" />
                         <div className="d-flex justify-content-between mb-3">
                             <div>
                                 <p className="fw-bold mb-1">Departure date:</p>
-                                <p className="text-secondary">25 May 2023</p>
+                                <p className="text-secondary">{departureDate}</p>
                             </div>
                             <div>
                                 <p className="fw-bold mb-1">Departure time:</p>
-                                <p className="text-secondary">15:33</p>
+                                <p className="text-secondary">{departureTime}</p>
                             </div>
                         </div>
                         <div className="d-flex justify-content-between mb-3">
                             <div>
                                 <p className="fw-bold mb-1">Landing date:</p>
-                                <p className="text-secondary">26 May 2023</p>
+                                <p className="text-secondary">{landingDate}</p>
                             </div>
                             <div>
                                 <p className="fw-bold mb-1">Landing time:</p>
-                                <p className="text-secondary">15:33</p>
+                                <p className="text-secondary">{landingTime}</p>
                             </div>
                         </div>
                         <hr className="my-4" />
                         <div className="d-flex justify-content-between">
                             <p className="fw-bold mb-0">Price:</p>
-                            <p className="text-success fw-bold mb-0">5000000 LKR</p>
+                            <p className="text-success fw-bold mb-0">{price} LKR</p>
                         </div>
                     </Card.Body>
                 </Card>

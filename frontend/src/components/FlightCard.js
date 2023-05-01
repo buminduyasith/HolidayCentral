@@ -6,6 +6,7 @@ import Link from "next/link";
 
 const FlightCard = ({ flight }) => {
     const {
+        _id,
         airline,
         fromTerminal,
         toTerminal,
@@ -17,6 +18,8 @@ const FlightCard = ({ flight }) => {
         class: flightClass,
         allowedMaxBaggageWeight,
         isRefundable,
+        departureDate,
+        landingDate
     } = flight;
 
     return (
@@ -65,7 +68,20 @@ const FlightCard = ({ flight }) => {
                                         href={{
                                             pathname: "./checkout",
                                             query: {
-                                                id: 1
+                                                id: _id,
+                                                airline,
+                                                fromTerminal,
+                                                toTerminal,
+                                                flightDuration,
+                                                price,
+                                                departureTime,
+                                                landingTime,
+                                                stops,
+                                                flightClass,
+                                                allowedMaxBaggageWeight,
+                                                isRefundable,
+                                                departureDate,
+                                                landingDate
                                             }
                                         }}
                                         as={'flights/flightscheckout'}

@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const flightController = require("./controllers/flightController");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const authController = require("./controllers/authController");
 const backOfficeController = require("./controllers/backOfficeController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
@@ -11,6 +12,8 @@ const userRoles = require('./enums/userRoles')
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(cors());
 
 app.use(cookieParser());
 app.use(express.json());

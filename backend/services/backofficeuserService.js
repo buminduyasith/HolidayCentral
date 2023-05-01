@@ -14,30 +14,24 @@ async function CreateBackofficeUser(boUser, identiyUser) {
     return newBoUser;
 }
 
-async function InsertFlightDetails() {
-    try {
-        const csvPath = path.join(__dirname, "..", "resources", "testData", "CSVflightDetails.csv");
-        console.log("csvPath", csvPath);
-
-        const flightRecords = await new Promise((resolve, reject) => {
-            const parser = parse({ columns: true }, (err, records) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(records);
-                }
-            });
-            fs.createReadStream(csvPath).pipe(parser);
+async function InsertFlightDetails(csvPath) {
+    console.log("csvPath", csvPath);
+    const flightRecords = await new Promise((resolve, reject) => {
+        const parser = parse({ columns: true }, (err, records) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(records);
+            }
         });
+        fs.createReadStream(csvPath).pipe(parser);
+    });
 
-        const flightModels = flightRecords.map((flightRecord) => new flightModel(flightRecord));
-        const results = await flightModel.insertMany(flightModels);
+    const flightModels = flightRecords.map((flightRecord) => new flightModel(flightRecord));
+    const results = await flightModel.insertMany(flightModels);
 
-        console.log("flight detail results", results);
-        return results;
-    } catch (error) {
-        console.error(error);
-    }
+    console.log("flight detail results", results);
+    return results;
 }
 
 module.exports = {

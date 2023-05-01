@@ -5,6 +5,7 @@ const path = require("path");
 
 const userRoles = require("../enums/userRoles");
 const { InsertFlightDetails } = require("../services/backofficeuserService");
+const { GetAllFlights, GetFlightById, DeleteFlightById, UpdateFlightById } = require("../services/backofficeService")
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -35,7 +36,7 @@ router.get("/", (req, res) => {
     res.send("admin bo");
 });
 
-router.post("/flights", upload.single("file"), async (req, res, next) => {
+router.post("/product/flights", upload.single("file"), async (req, res, next) => {
     try {
         //const csvPath = req.file.path
         const filePath = path.join(process.cwd(), req.file.path);
@@ -43,9 +44,86 @@ router.post("/flights", upload.single("file"), async (req, res, next) => {
         await InsertFlightDetails(filePath);
         res.send(filePath);
     } catch (error) {
-        console.log("flights details save", error)
+        console.log("flights details save failed", error)
         res.status(400)
         next(error);
+    }
+});
+
+router.get("/product/flights", async (req, res, next) => {
+    try {
+
+        var flights = await GetAllFlights()
+        if(!flights){
+            res.status(404).json({ message: 'Flights not found' });
+            return;
+        }
+        res.status(200).json(flights);
+     
+    } catch (error) {
+        console.log("flights details get failed", error)
+        res.status(400)
+        next(error);
+    }
+});
+
+router.get("/product/flights/:id", async (req, res, next) => {
+    try {
+
+        if(!req.params.id){
+            throw new Error("query string should include id")
+        }
+        var flight = await GetFlightById(req.params.id)
+        if(!flight){
+            res.status(404).json({ message: 'Flight not found' });
+            return;
+        }
+        res.status(200).json(flight);
+     
+    } catch (error) {
+        console.log("flights details get failed", error)
+        res.status(400)
+        next(error);
+    }
+});
+
+router.delete("/product/flights/:id", async (req, res, next) => {
+    try {
+
+        if(!req.params.id){
+            throw new Error("query string should include id")
+        }
+        var flight = await DeleteFlightById(req.params.id)
+        if(!flight){
+            res.status(404).json({ message: 'Flight not found' });
+            return;
+        }
+        res.sendStatus(200);
+     
+    } catch (error) {
+        console.log("flight delete by id failed", error)
+        res.sendStatus(400)
+    }
+});
+
+router.put("/product/flights/:id", async (req, res, next) => {
+    try {
+
+        if(!req.params.id){
+            throw new Error("query string should include id")
+        }
+
+        var flight = await UpdateFlightById(req.params.id, req.body)
+        console.log(flight)
+        if(!flight){
+            res.status(404).json({ message: 'Flight not found' });
+            return;
+        }
+        res.sendStatus(200);
+     
+    } catch (error) {
+        console.log("flight detail update by id failed", error)
+        res.sendStatus(400)
     }
 });
 

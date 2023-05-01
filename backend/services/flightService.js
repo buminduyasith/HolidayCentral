@@ -1,10 +1,20 @@
-const flightModel =  require('../models/FlightModel')
+const flightModel = require('../models/FlightModel')
 const userRoles = require("../enums/userRoles");
 const { v4: uuidv4 } = require('uuid');
 
-async function getAllFlights(params) {
-    const allFlightData = await flightModel.find({});
-    return allFlightData
+async function getAllFlights(res, req) {
+    flightModel.find({})
+        .then((docs) => {
+            console.log(docs);
+            res.sendStatus(200);
+            return docs
+        })
+        .catch((error) => {
+            console.error(error);
+            res.sendStatus(500);
+            return [];
+        });
+
 }
 
 async function getSearchAllFlights(params) {
@@ -13,3 +23,6 @@ async function getSearchAllFlights(params) {
     return allFlightData
 }
 
+module.exports = {
+    getAllFlights
+};

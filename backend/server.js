@@ -1,12 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const flightController = require("./controllers/flightController");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const authController = require("./controllers/authController");
 const backOfficeController = require("./controllers/backOfficeController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
-const {errorHandlers, notFound} = require("./middlewares/commonMiddleware");
+const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
 
 const app = express();
@@ -30,6 +31,7 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 });
 
 app.use("/auth", authController);
+app.use("/flights", flightController);
 
 app.use('/api/v1/backoffice', backOfficeController);
 
@@ -47,3 +49,5 @@ mongoose
     .catch((error) => {
         console.log("not connected to db", error);
     });
+
+app.listen(5500)

@@ -20,7 +20,7 @@ const backOfficeUserSchema = new mongoose.Schema({
         type: Number
     },
     Package_Rating:{
-        type: String
+        type: Number
     },
     Hotel:  {
         type: String
@@ -31,7 +31,7 @@ const backOfficeUserSchema = new mongoose.Schema({
     package_Description:  {
         type: String
     },
-    Contct_Email:  {
+    Contact_Email:  {
         type: String
     }
 });

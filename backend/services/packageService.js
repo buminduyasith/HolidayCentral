@@ -65,3 +65,9 @@ async function getallPackages() {
     return results
 
 }
+
+module.exports = {
+    getallPackages,
+    getSearchallpackages
+   
+};

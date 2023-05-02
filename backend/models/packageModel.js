@@ -5,9 +5,13 @@ const backOfficeUserSchema = new mongoose.Schema({
         type: String,
         required : [true, "Destination required"]
     },
-    Duration:  {
-        type: String,
-        required : [true, "Duration required"]
+    check_in:  {
+        type: Date,
+        required : [true, "check-in date required"]
+    },
+    check_out:  {
+        type: Date,
+        required : [true, "check-out date required"]
     },
     Number_of_Travelers :  {
         type: Number,

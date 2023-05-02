@@ -23,10 +23,10 @@ async function getSearchallpackages(req) {
     let results;
     const searchCriteria = {};
 
-     const queryFields = ['specialty', 'hotel', 'location', 'price', 'package_Description', 'package_Rating','check_in','check_out'];
+     const queryFields = ['package_Name', 'price', 'tour_Location', 'package_Rating', 'package_Description','contact_Email','travelStartDate','travelEndDate'];
      for (const field of queryFields) {
         if (req.query[field]) {
-             if (field === 'check_in' || field === 'check_out') {
+             if (field === 'travelStartDate' || field === 'travelEndDate') {
                  searchCriteria[field] = new Date(req.query[field]);
             } else {
                  searchCriteria[field] = req.query[field];

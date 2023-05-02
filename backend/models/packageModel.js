@@ -1,41 +1,42 @@
 const mongoose = require("mongoose");
 
-const backOfficeUserSchema = new mongoose.Schema({
-    Destination:  {
+const packageSchema = new mongoose.Schema({
+    destination:  {
         type: String,
         required : [true, "Destination required"]
     },
-    check_in:  {
-        type: Date,
-        required : [true, "check-in date required"]
+    travelStartDate:  {
+        type: String,
+        required : [true, "Travel Star date required"]
     },
-    check_out:  {
-        type: Date,
-        required : [true, "check-out date required"]
+    travelEndDate:  {
+        type: String,
+        required : [true, "Travel end date required"]
     },
-    Number_of_Travelers :  {
+    numberOfTravelers :  {
         type: Number,
         required : [true, " Number of Travelers required"]
     },
-    Specialty: {
+    specialty: {
+        type: String,
+        required : [true, " specialty required"]
+    },
+    packageName: {
         type: String
     },
-    Price: {
+    price: {
         type: Number
     },
-    Package_Rating:{
+    tourLocation: {
+        type: String
+    },
+    packageRating:{
         type: Number
     },
-    Hotel:  {
+    packageDescription:  {
         type: String
     },
-    Location:  {
-        type: String
-    },
-    package_Description:  {
-        type: String
-    },
-    Contact_Email:  {
+    contactEmail:  {
         type: String
     }
 });

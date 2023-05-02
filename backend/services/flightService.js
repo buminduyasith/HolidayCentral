@@ -24,7 +24,7 @@ async function getSearchAllFlights(req) {
     let results;
     const searchCriteria = {};
 
-    const queryFields = ['fromCountry', 'fromTerminal', 'toCountry', 'toTerminal', 'departureDate', 'landingDate'];
+    const queryFields = ['fromCountry', 'toCountry', 'departureDate', 'landingDate', 'class'];
     for (const field of queryFields) {
         if (req.query[field]) {
             if (field === 'departureDate' || field === 'landingDate') {

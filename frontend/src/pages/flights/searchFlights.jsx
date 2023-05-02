@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/layout";
 import Link from "next/link";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Form, Row, Col, Button, Card } from "react-bootstrap";
 import axios from 'axios';
 import FlightList from "@/components/FlightCard";
@@ -21,8 +21,12 @@ export default function SearchFlights() {
   const [stopFilter, setStopFilter] = useState('');
   const [tripTypeFilter, setTripTypeFilter] = useState('');
 
+  const api = axios.create({
+    baseURL: 'http://localhost:5000/flights'
+  });
+
   useEffect(() => {
-    axios.get("http://localhost:5000/flights/allflights")
+    api.get("/allflights")
       .then((res) => {
         // console.log(res);
         setData(res.data)
@@ -33,41 +37,42 @@ export default function SearchFlights() {
   }, [])
 
   // Search Param Handlers
-  const departureCountryHandler = (event) => {
+  const departureCountryHandler = useCallback((event) => {
     setDepartureCountry(event.target.value);
-  };
+  }, []);
 
-  const arrivalCountryandler = (event) => {
+  const arrivalCountryandler = useCallback((event) => {
     setArrivalCountry(event.target.value);
-  };
+  }, []);
 
-  const departureDatehandler = (event) => {
+  const departureDatehandler = useCallback((event) => {
     setDepartureDate(event.target.value);
-  };
+  }, []);
 
-  const arrivalDateHandler = (event) => {
+  const arrivalDateHandler = useCallback((event) => {
     setArrivalDate(event.target.value);
-  };
+  }, []);
 
-  const cabinClassHandler = (event) => {
+  const cabinClassHandler = useCallback((event) => {
     setCabinClass(event.target.value);
-  };
+  }, []);
 
   // Filter Param Handlers
-  const priceRangeHandler = (event) => {
+  const priceRangeHandler = useCallback((event) => {
     setPriceRangeFilter(event.target.value);
-  };
-  const airlineHandler = (event) => {
+  }, []);
+
+  const airlineHandler = useCallback((event) => {
     setAirlineFilter(event.target.value);
-  };
+  }, []);
 
-  const stopsHandler = (event) => {
+  const stopsHandler = useCallback((event) => {
     setStopFilter(event.target.value);
-  };
+  }, []);
 
-  const tripTypeHandler = (event) => {
+  const tripTypeHandler = useCallback((event) => {
     setTripTypeFilter(event.target.value);
-  };
+  }, []);
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
@@ -78,7 +83,7 @@ export default function SearchFlights() {
     setValidated(true);
 
     try {
-      const res = await axios.get('http://localhost:5000/flights/searchflights', {
+      const res = await api.get('/searchflights', {
         params: {
           fromCountry: departureCountry,
           toCountry: arrivalCountry,

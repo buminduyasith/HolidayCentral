@@ -82,7 +82,57 @@ function generatePassword(length) {
     return password;
 }
 
+async function GetUserByEmail(email){
+    const user = await userModel.findOne({ email });
+    return user;
+}
+
+async function GenerateResetPasswordOneTimeLink(baseUrl, user){
+
+    const userDto = {
+        email:user.email,
+        id:user.id
+    }
+    const token = jwt.sign(userDto, process.env.RESETPASSWORDTOKENSECRET, { expiresIn: '10m' });
+
+    const url = baseUrl + `reset-password?token=${token}`
+    return url;
+}
+
+async function ResetPassword(token, email, password) {
+    
+    const extractUserFromJwt = await jwt.verify(token, process.env.RESETPASSWORDTOKENSECRET);
+
+    if(extractUserFromJwt.email !== email){
+        
+        throw new Error("user given email and jwt token email is does not match")
+    }
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+        throw new Error("Account does not exist.");
+    }
+
+
+    const hashpwd = await bcrypt.hashSync(password, saltRounds);
+
+    user.hashPassword = hashpwd
+
+    const updateUser = await userModel.findByIdAndUpdate(user.id, user, {
+        new: true, // return the updated document
+    });
+
+
+    console.log("updateUser",updateUser)
+    return updateUser;
+   
+   
+}
 module.exports = {
     CreateUserAccount,
     Signin,
+    GetUserByEmail,
+    GenerateResetPasswordOneTimeLink,
+    ResetPassword
 };

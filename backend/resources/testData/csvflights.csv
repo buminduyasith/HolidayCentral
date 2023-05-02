@@ -1,0 +1,7 @@
+airline,fromTerminal,toTerminal,fromCountry,toCountry,roundBackfromTerminal,roundBackToTerminal,price,departureDate,landingDate,flightDuration,stops,allowedMaxBaggageWeight,isRefundable,tripType,class
+Sri Lankan Airlines,CMB,LAX,LK,US,,,5000000,5/25/2023,5/26/2023,15,1,10,false,One Way,Economy
+Signapoor Airlines,CMB,ATL,LK,US,,,6000000,5/25/2023,5/27/2023,15,2,12,true,One Way,Business
+Malaysian Airlines,CMB,JFK,LK,US,JFK,CMB,2000000,5/25/2023,5/28/2023,15,0,15,false,Round Trip,First
+Emirates Airlines,CMB,Munich,LK,DE,,,90000,5/25/2023,5/29/2023,15,2,13,true,One Way,Economy
+American Airlines,CMB,CAN,LK,CA,CAN,CMB,190000,5/25/2023,5/30/2023,15,1,16,true,Round Trip,Business
+Air Asia Airlines,CMB,AMS,LK,NL,AMS,CMB,650000,5/25/2023,5/31/2023,15,0,20,false,Round Trip,First

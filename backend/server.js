@@ -9,7 +9,7 @@ const {errorHandlers, notFound} = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
 
 const app = express();
-const port = process.env.PORT || 5000;
+//const port = process.env.PORT || 5000;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -34,11 +34,11 @@ app.use(notFound);
 app.use(errorHandlers);
 
 mongoose
-    .connect(process.env.CONNECTIONSTRING)
+    .connect(process.env.MONGO)
     .then(() => {
         console.log("connected to db");
-        app.listen(port, async () => {
-            console.log(`server running on port ${port}`);
+        app.listen(5000, async () => {
+            //console.log(`server running on port ${port}`);
         });
     })
     .catch((error) => {

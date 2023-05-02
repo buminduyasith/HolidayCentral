@@ -9,9 +9,9 @@ const backOfficeUserSchema = new mongoose.Schema({
         type: String,
         required : [true, "LastName required"]
     },
-    phoeNumber :  {
+    phoneNumber :  {
         type: String,
-        required : [true, "PhoeNumber required"]
+        required : [true, "Phone Number required"]
     },
     createdDate: {
         type: Date,

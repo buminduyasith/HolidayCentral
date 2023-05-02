@@ -41,8 +41,8 @@ router.post("/product/flights", upload.single("file"), async (req, res, next) =>
         //const csvPath = req.file.path
         const filePath = path.join(process.cwd(), req.file.path);
         console.log("csvPath", filePath);
-        await InsertFlightDetails(filePath);
-        res.send(filePath);
+        var data = await InsertFlightDetails(filePath);
+        res.sendStatus(201);
     } catch (error) {
         console.log("flights details save failed", error)
         res.status(400)

@@ -9,6 +9,7 @@ const backOfficeController = require("./controllers/backOfficeController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
 const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
+const hotelController = require('./controllers/hotelController.js');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,7 +33,7 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 
 app.use("/auth", authController);
 app.use("/flights", flightController);
-
+app.use('/hotels', require('./controllers/hotelController.js'));
 app.use('/api/v1/backoffice', backOfficeController);
 
 app.use(notFound);

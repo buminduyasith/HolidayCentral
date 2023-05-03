@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 const { getAllFlights, getSearchAllFlights, createFlightCheckoutRecord } = require("../services/flightService");
-const fs = require("fs");
-const path = require("path");
 const { logger } = require("../middlewares/loggerMiddleware");
 
 router.use(cors());

@@ -50,7 +50,7 @@ const BoFlightCard = ({ flight }) => {
                                     <Button variant="primary">
                                         <Link
                                             style={{ textDecoration: "none", color: "#000" }}
-                                            href={`/backoffice/flights/${flight.id}`}
+                                            href={`/backoffice/flights/${flight._id}`}
                                         >
                                             View
                                         </Link>

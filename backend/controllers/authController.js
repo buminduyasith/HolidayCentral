@@ -5,6 +5,9 @@ const { CreateUserAccount, Signin, GetUserByEmail, GenerateResetPasswordOneTimeL
 const { CreateTravelAgenteUser} = require("../services/travelAgentUserService");
 const userRoles = require("../enums/userRoles");
 const { ResetPasswordEmail } = require("../services/emailService");
+const boSignupSchema = require("../schemas/boSignupSchema");
+const taSignupSchema = require("../schemas/travelAdgentSignupSchema");
+const userSigninSchema = require("../schemas/userSigninSchema");
 
 router.get("/", (req, res) => {
     res.sendStatus(200);
@@ -12,7 +15,11 @@ router.get("/", (req, res) => {
 
 router.post("/signin", async (req, res, next) => {
     try {
+        
         console.log("signin request", req.body)
+        const validationResult = await userSigninSchema.validateAsync( req.body);
+        console.log("user signin validation Result", validationResult)
+
         const user = await Signin(req.body.email, req.body.password);
         res.status(200).json(user);
     } catch (error) {
@@ -24,6 +31,11 @@ router.post("/signin", async (req, res, next) => {
 
 router.post("/backoffice/signup", async (req, res, next) => {
     try {
+
+
+        const validationResult = await boSignupSchema.validateAsync( req.body);
+        console.log("bo signup validation Result", validationResult)
+
         const response = await CreateUserAccount(req.body.email, userRoles.BACKOFFICEUSER);
         console.log("res", response);
 
@@ -44,6 +56,10 @@ router.post("/backoffice/signup", async (req, res, next) => {
 
 router.post("/travelagent/signup", async (req, res, next) => {
     try {
+
+        const validationResult = await taSignupSchema.validateAsync( req.body);
+        console.log("travelagent signup validation Result", validationResult)
+
         const createUserResponse = await CreateUserAccount(req.body.email, userRoles.TRAVELAGENT);
 
         if (createUserResponse.isError) {

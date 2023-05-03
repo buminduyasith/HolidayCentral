@@ -5,33 +5,38 @@ const packageSchema = new mongoose.Schema({
         type: String,
         required : [true, "Destination required"]
     },
-    duration:  {
+    travelStartDate:  {
         type: String,
-        required : [true, "Duration required"]
+        required : [true, "Travel Star date required"]
+    },
+    travelEndDate:  {
+        type: String,
+        required : [true, "Travel end date required"]
     },
     numberOfTravelers :  {
         type: Number,
         required : [true, " Number of Travelers required"]
     },
     specialty: {
+        type: String,
+        required : [true, " specialty required"]
+    },
+    packageName: {
         type: String
     },
     price: {
         type: Number
     },
-    package_Rating:{
+    tourLocation: {
+        type: String
+    },
+    packageRating:{
         type: Number
     },
-    hotel:  {
+    packageDescription:  {
         type: String
     },
-    location:  {
-        type: String
-    },
-    package_Description:  {
-        type: String
-    },
-    contact_Email:  {
+    contactEmail:  {
         type: String
     }
 });

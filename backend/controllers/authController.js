@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { CreateBackofficeUser } = require("../services/backofficeuserService");
-const { CreateUserAccount, Signin } = require("../services/userBaseService");
+const { CreateUserAccount, Signin, GetUserByEmail, GenerateResetPasswordOneTimeLink, ResetPassword } = require("../services/userBaseService");
 const { CreateTravelAgenteUser} = require("../services/travelAgentUserService");
 const userRoles = require("../enums/userRoles");
+const { ResetPasswordEmail } = require("../services/emailService");
 
 router.get("/", (req, res) => {
     res.sendStatus(200);
@@ -59,5 +60,51 @@ router.post("/travelagent/signup", async (req, res, next) => {
         next(error);
     }
 });
+
+router.post("/password_reset", async (req, res, next) => {
+    try {
+        console.log("password_reset", req.body)
+
+        const user = await GetUserByEmail(req.body.email)
+
+        if(!user){
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const oneTimeLink = await GenerateResetPasswordOneTimeLink("http://localhost:3000/",user)
+        console.log("oneTimeLink", oneTimeLink)
+        const emailStatus = await ResetPasswordEmail(user.email, oneTimeLink)
+
+        res.sendStatus(200)
+        
+    } catch (error) {
+        console.log("user sign in failed", req.body, error);
+        res.status(401);
+        next(error);
+    }
+});
+
+
+router.post("/password_reset/:token", async (req, res, next) => {
+    try {
+
+        const token = req.params.token
+
+        if(!token){
+            console.log("token not found")
+            return res.sendStatus(400)
+        }
+
+        await ResetPassword(token, req.body.email, req.body.password)
+
+        res.sendStatus(200)
+        
+    } catch (error) {
+        console.log("user sign in failed", req.body, error);
+        res.status(400);
+        next(error);
+    }
+});
+
 
 module.exports = router;

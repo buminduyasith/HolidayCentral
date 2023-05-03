@@ -46,7 +46,18 @@ async function SendTAUserAccountCreationEmail(email, name, defaultPassword) {
     await SendMail(email, "You have invited as Travel agent user to HolidayCentral portal", html);
 }
 
+async function ResetPasswordEmail(email, resetLink) {
+    console.log("recipients", email)
+    const htmlPath = path.join(__dirname, "..", "resources", "resetPassword.html");
+    console.log("ResetPasswordEmail html path", htmlPath);
+    const html = fs
+        .readFileSync(htmlPath, "utf8")
+        .replace("{{resetLink}}", resetLink);
+    await SendMail(email, "Password Reset Link - HolidayCentral portal", html);
+}
+
 module.exports = {
     SendBOUserAccountCreationEmail,
     SendTAUserAccountCreationEmail,
+    ResetPasswordEmail
 };

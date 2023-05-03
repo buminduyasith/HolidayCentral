@@ -5,7 +5,8 @@ function notFound(req, res, next) {
 }
 
 function errorHandlers(err, req, res, next) {
-    res.status(res.statusCode || 500);
+    console.log(err)
+    res.status(err.status || res.statusCode || 500);
     res.json({
         message: err.message,
         stack: process.env.ERRORSTACK === "true" ? err.stack : "",

@@ -5,7 +5,9 @@ const flightController = require("./controllers/flightController");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const authController = require("./controllers/authController");
-const backOfficeController = require("./controllers/backOfficeController");
+const backOfficeFlightController = require("./controllers/backOfficeFlightController");
+const backOfficeHotelController = require("./controllers/backOfficeHotelController");
+const backOfficePackageController = require("./controllers/backOfficePackageController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
 const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
@@ -34,7 +36,10 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 app.use("/auth", authController);
 app.use("/flights", flightController);
 app.use('/hotels', require('./controllers/hotelController.js'));
-app.use('/api/v1/backoffice', backOfficeController);
+
+app.use('/api/v1/backoffice/product/flights', backOfficeFlightController);
+app.use('/api/v1/backoffice/product/hotels', backOfficeHotelController);
+app.use('/api/v1/backoffice/product/packages', backOfficePackageController);
 
 app.use(notFound);
 app.use(errorHandlers);

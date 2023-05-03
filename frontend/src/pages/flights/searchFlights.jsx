@@ -164,8 +164,8 @@ export default function SearchFlights() {
         <Row>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <div class="mb-4">
-                <h6 class=" text-uppercase">Search Flights</h6>
+              <div className="mb-4">
+                <h6 className=" text-uppercase">Search Flights</h6>
                 <hr style={{ borderTop: '2px dashed #999' }} />
               </div>
               <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -243,8 +243,8 @@ export default function SearchFlights() {
               </Col>
             </Row>
             <Row className="mb-3">
-              <div class="mb-4">
-                <h6 class=" text-uppercase">Filter Flights</h6>
+              <div className="mb-4">
+                <h6 className=" text-uppercase">Filter Flights</h6>
                 <hr style={{ borderTop: '2px dashed #999' }} />
               </div>
               <Form.Group as={Col} md="4" controlId="validationCustom01">

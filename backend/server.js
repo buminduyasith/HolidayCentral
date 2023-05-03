@@ -50,5 +50,3 @@ mongoose
     .catch((error) => {
         console.log("not connected to db", error);
     });
-
-app.listen(5500)

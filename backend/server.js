@@ -1,15 +1,19 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const flightController = require("./controllers/flightController");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const authController = require("./controllers/authController");
 const backOfficeController = require("./controllers/backOfficeController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
-const {errorHandlers, notFound} = require("./middlewares/commonMiddleware");
+const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
 
 const app = express();
-//const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
+
+app.use(cors());
 
 app.use(cookieParser());
 app.use(express.json());
@@ -27,6 +31,7 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 });
 
 app.use("/auth", authController);
+app.use("/flights", flightController);
 
 app.use('/api/v1/backoffice', backOfficeController);
 
@@ -34,13 +39,15 @@ app.use(notFound);
 app.use(errorHandlers);
 
 mongoose
-    .connect(process.env.MONGO)
+    .connect(process.env.CONNECTIONSTRING)
     .then(() => {
         console.log("connected to db");
-        app.listen(5000, async () => {
-            //console.log(`server running on port ${port}`);
+        app.listen(port, async () => {
+            console.log(`server running on port ${port}`);
         });
     })
     .catch((error) => {
         console.log("not connected to db", error);
     });
+
+app.listen(5500)

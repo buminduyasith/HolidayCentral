@@ -1,14 +1,15 @@
 import Layout from "@/components/layout/layout";
-import Link from "next/link";
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Form, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import axios from 'axios';
 import FlightList from "@/components/FlightCard";
 
 
 export default function SearchFlights() {
   const [validated, setValidated] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  const [flightList, setFlightList] = useState([]);
+  const [error, setError] = useState(null);
   // Search Params
   const [departureCountry, setDepartureCountry] = useState('LK');
   const [arrivalCountry, setArrivalCountry] = useState('');
@@ -29,12 +30,22 @@ export default function SearchFlights() {
     api.get("/allflights")
       .then((res) => {
         // console.log(res);
-        setData(res.data)
+        setData(res.data);
+        setError(null);
       })
       .catch((error) => {
         console.error(`Error fetching data from API: ${error.message}`);
+        setError("Error fetching data from API");
       })
   }, [])
+
+  useEffect(() => {
+    if (Array.isArray(data) && data.length > 0) {
+      setFlightList(data);
+    } else {
+      setError("No data received");
+    }
+  }, [data])
 
   // Search Param Handlers
   const departureCountryHandler = useCallback((event) => {
@@ -74,6 +85,10 @@ export default function SearchFlights() {
     setTripTypeFilter(event.target.value);
   }, []);
 
+  const handleReset = () => {
+    setFlightList(data);
+  };
+
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -94,7 +109,7 @@ export default function SearchFlights() {
       });
 
       console.log(res)
-      setData(res.data)
+      setFlightList(res.data)
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +154,7 @@ export default function SearchFlights() {
       });
     }
 
-    setData(filteredData);
+    setFlightList(filteredData);
 
   }
 
@@ -223,6 +238,9 @@ export default function SearchFlights() {
               <Col md={8} >
                 <Button className="mb-3" onClick={handleSubmit}>Search</Button>
               </Col>
+              <Col md={8} >
+                <Button className="mb-3" onClick={handleReset}>Reset Search</Button>
+              </Col>
             </Row>
             <Row className="mb-3">
               <div class="mb-4">
@@ -290,11 +308,18 @@ export default function SearchFlights() {
               <Col md={8} >
                 <Button className="mb-3" onClick={handleFilterSubmit}>Filter</Button>
               </Col>
+              <Col md={8} >
+                <Button className="mb-3" onClick={handleReset}>Reset Filter</Button>
+              </Col>
             </Row>
           </Form>
         </Row>
         {/* Loop Row with all Flight Data */}
-        <FlightList flights={data} />
+        {error ? (
+          <div>{error}</div>
+        ) : (
+          <FlightList flights={flightList} />
+        )}
       </Container>
     </Layout>
   )

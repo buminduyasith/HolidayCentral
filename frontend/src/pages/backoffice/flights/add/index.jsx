@@ -16,8 +16,10 @@ export default function index() {
         try {
             const res = await axios.post("http://localhost:5000/api/v1/backoffice/product/flights", formData);
             console.log(res.data);
+            alert("file uploaded successfully")
         } catch (err) {
             console.error(err);
+            alert("something went wrong")
         }
     };
 

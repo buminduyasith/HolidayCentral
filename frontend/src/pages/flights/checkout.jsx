@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/layout";
 import React, { useState } from 'react';
-import { Container, Form, InputGroup, Row, Col, Button, Card, Accordion } from "react-bootstrap";
+import { Container, Form, Row, Col, Button, Card, Accordion, Alert } from "react-bootstrap";
 import { useRouter } from 'next/router'
 import { FaUser, FaPlane, FaCreditCard } from 'react-icons/fa';
 import { BsCheckLg } from 'react-icons/bs'
@@ -10,14 +10,17 @@ import axios from "axios";
 const Checkout = () => {
     const router = useRouter();
     const [step, setStep] = useState(1);
-    const [mealType, setMealType] = useState('');
-    const [seating, setSeating] = useState('');
+    const [mealType, setMealType] = useState('Veg');
+    const [seating, setSeating] = useState('basic');
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
+    const [city, setCity] = useState('galle');
     const [zip, setZip] = useState('');
-    const [country, setCountry] = useState('');
+    const [country, setCountry] = useState('LK');
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const {
         id,
@@ -29,7 +32,7 @@ const Checkout = () => {
         departureTime,
         landingTime,
         stops,
-        class: flightClass,
+        flightClass,
         allowedMaxBaggageWeight,
         isRefundable,
         departureDate,
@@ -77,7 +80,89 @@ const Checkout = () => {
 
     const handlePaymentDetailsSubmit = async (event) => {
         event.preventDefault();
-        const finalData = { mealType, seating, email, name, address, city, zip, country };
+
+        const emptyFields = [];
+
+        if (!airline) {
+            emptyFields.push('Airline');
+        }
+
+        if (!fromCountry) {
+            emptyFields.push('From country');
+        }
+
+        if (!toCountry) {
+            emptyFields.push('To country');
+        }
+
+        if (!price) {
+            emptyFields.push('Price');
+        }
+
+        if (!departureDate) {
+            emptyFields.push('Departure date');
+        }
+
+        if (!departureTime) {
+            emptyFields.push('Departure time');
+        }
+
+        if (!landingDate) {
+            emptyFields.push('Landing date');
+        }
+
+        if (!landingTime) {
+            emptyFields.push('Landing time');
+        }
+
+        if (!isRefundable) {
+            emptyFields.push('Refundable');
+        }
+
+        if (!tripType) {
+            emptyFields.push('Trip type');
+        }
+
+        if (!flightClass) {
+            emptyFields.push('Flight class');
+        }
+
+        if (!email) {
+            emptyFields.push('Email');
+        }
+
+        if (!name) {
+            emptyFields.push('Name');
+        }
+
+        if (!address) {
+            emptyFields.push('Address');
+        }
+
+        if (!city) {
+            emptyFields.push('City');
+        }
+
+        if (!zip) {
+            emptyFields.push('Zip');
+        }
+
+        if (!country) {
+            emptyFields.push('Country');
+        }
+
+        if (!mealType) {
+            emptyFields.push('Meal type');
+        }
+
+        if (!seating) {
+            emptyFields.push('Seating');
+        }
+
+        if (emptyFields.length > 0) {
+            setErrorMessage(`Please fill in the following fields: ${emptyFields.join(', ')}`);
+            return;
+        }
 
         try {
             const res = await axios.post("http://localhost:5000/flights/checkout", {
@@ -102,6 +187,7 @@ const Checkout = () => {
                 seating
             });
             console.log(res);
+            setSuccessMessage("Your payment was successful!");
         } catch (error) {
             console.error(error);
         }
@@ -146,6 +232,8 @@ const Checkout = () => {
                         </div>
                     </Card.Body>
                 </Card>
+                {errorMessage && <Alert variant="danger" dismissible>{errorMessage}</Alert>}
+                {successMessage && <Alert variant="success" dismissible>{successMessage}</Alert>}
                 <Accordion defaultActiveKey="0" className="mb-5">
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>
@@ -212,7 +300,7 @@ const Checkout = () => {
                                     <Form.Group className="mb-3" controlId="seatType">
                                         <Form.Label>City</Form.Label>
                                         <Form.Control as="select" name="seating" value={city} onChange={cityHandler}>
-                                            <option value="galle">Gale</option>
+                                            <option value="galle">Galle</option>
                                             <option value="CMB">Colombo</option>
                                             <option value="california">California</option>
                                             <option value="Toronto">Toronto</option>

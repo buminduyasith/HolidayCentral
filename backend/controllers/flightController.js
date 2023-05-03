@@ -6,9 +6,6 @@ const fs = require("fs");
 const path = require("path");
 const { logger } = require("../middlewares/loggerMiddleware");
 
-const logFilePath = path.join(__dirname, "../logs/api.log");
-const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
-
 router.use(cors());
 
 router.use(logger);

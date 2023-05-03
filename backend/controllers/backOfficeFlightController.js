@@ -34,6 +34,7 @@ const upload = multer({
 router.post("/", upload.single("file"), async (req, res, next) => {
     try {
         //const csvPath = req.file.path
+        console.log("req path", req?.file?.path)
         const filePath = path.join(process.cwd(), req.file.path);
         console.log("csvPath", filePath);
         var data = await InsertFlightDetails(filePath);

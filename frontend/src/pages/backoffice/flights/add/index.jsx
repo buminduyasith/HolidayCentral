@@ -1,12 +1,15 @@
 import Layout from "@/components/layout/layout";
 import React, { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import axios from "axios";
+import useAxiosAuth from "lib/hooks/useAxiosAuth";
 import BONavBar from "@/components/navbar/BONavBar";
+import axios from "axios";
 
 export default function index() {
     const { data: session } = useSession();
     const [file, setFile] = useState(null);
+
+    const axiosAuth = useAxiosAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,7 +17,7 @@ export default function index() {
         formData.append("file", file);
 
         try {
-            const res = await axios.post("http://localhost:5000/api/v1/backoffice/product/flights", formData);
+            const res = await axiosAuth.post("http://localhost:5000/api/v1/backoffice/product/flights", formData);
             console.log(res.data);
             alert("file uploaded successfully")
         } catch (err) {

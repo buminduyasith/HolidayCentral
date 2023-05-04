@@ -35,7 +35,7 @@ app.use("/auth", authController);
 app.use("/flights", flightController);
 app.use('/hotels', require('./controllers/hotelController.js'));
 app.use('/api/v1/backoffice', backOfficeController);
-
+app.use('/packages', require('./controllers/packageController.js'));
 app.use(notFound);
 app.use(errorHandlers);
 

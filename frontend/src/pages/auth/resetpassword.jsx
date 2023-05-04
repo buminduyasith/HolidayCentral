@@ -21,7 +21,7 @@ const fieldsSet = [
     }
 ];
 
-const resetcallback = () => {
+const resetpassword = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
@@ -76,4 +76,4 @@ const resetcallback = () => {
     );
 };
 
-export default resetcallback;
+export default resetpassword;

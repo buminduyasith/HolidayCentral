@@ -36,7 +36,7 @@ const Signin = () => {
           </div>
           <button type="submit" className="btn btn-primary">Submit</button>
           <Link href="/auth/resetpassword" passHref legacyBehavior>
-          <button className="btn btn-primary">Reset Password</button>
+          <button className="btn btn-primary mx-2">Reset Password</button>
           </Link>
         </form>
       </div>

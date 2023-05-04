@@ -17,7 +17,7 @@ export default function index() {
         formData.append("file", file);
 
         try {
-            const res = await axiosAuth.post("http://localhost:5000/api/v1/backoffice/product/flights", formData);
+            const res = await axios.post("http://localhost:5000/api/v1/backoffice/product/flights", formData);
             console.log(res.data);
             alert("file uploaded successfully")
         } catch (err) {

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import BONavBar from "@/components/navbar/BONavBar";
 import Link from "next/link";
 
 export default function dashboard() {
     const { data: session } = useSession();
+
+    useEffect(()=>{
+        console.log(session?.user)
+    },[session])
     return (
         <>
             <BONavBar />

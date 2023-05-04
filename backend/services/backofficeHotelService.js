@@ -1,4 +1,7 @@
 const hotelModel = require("../models/HotelModel");
+const fs = require("fs");
+const { parse } = require("csv-parse");
+const path = require("path");
 
 async function GetAllHotels() {
     const hotels = await hotelModel.find({});

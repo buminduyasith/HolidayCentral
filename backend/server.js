@@ -36,7 +36,6 @@ app.get("/", (req, res, next) => {
 });
 
 
-
 app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => {
     res.status(201).json(req.user);
 });
@@ -44,11 +43,14 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 app.use("/auth", authController);
 app.use("/flights", flightController);
 app.use('/hotels', require('./controllers/hotelController.js'));
+app.use('/packages', require('./controllers/packageController.js'));
+
 
 app.use('/api/v1/backoffice/product/flights',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeFlightController);
 app.use('/api/v1/backoffice/product/hotels',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeHotelController);
-app.use('/api/v1/backoffice/product/packages',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController); 
-app.use('/packages', require('./controllers/packageController.js'));
+app.use('/api/v1/backoffice/product/packages',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController);
+
+
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(notFound);
 app.use(errorHandlers);

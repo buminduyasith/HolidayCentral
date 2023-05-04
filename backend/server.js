@@ -12,6 +12,12 @@ const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticat
 const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
 const hotelController = require('./controllers/hotelController.js');
+const {swaggerOptions} = require("./utils/swagger");
+const swaggerJsdoc  = require('swagger-jsdoc')
+const swaggerUi  = require('swagger-ui-express')
+
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,6 +35,8 @@ app.get("/", (req, res, next) => {
     res.sendStatus(200);
 });
 
+
+
 app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => {
     res.status(201).json(req.user);
 });
@@ -37,10 +45,11 @@ app.use("/auth", authController);
 app.use("/flights", flightController);
 app.use('/hotels', require('./controllers/hotelController.js'));
 
-app.use('/api/v1/backoffice/product/flights', backOfficeFlightController);
-app.use('/api/v1/backoffice/product/hotels', backOfficeHotelController);
-app.use('/api/v1/backoffice/product/packages', backOfficePackageController);
+app.use('/api/v1/backoffice/product/flights',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeFlightController);
+app.use('/api/v1/backoffice/product/hotels',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeHotelController);
+app.use('/api/v1/backoffice/product/packages',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController); 
 
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(notFound);
 app.use(errorHandlers);
 
@@ -55,5 +64,6 @@ mongoose
     .catch((error) => {
         console.log("not connected to db", error);
     });
+
 
 app.listen(5500)

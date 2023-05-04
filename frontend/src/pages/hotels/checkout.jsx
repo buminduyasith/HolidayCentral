@@ -1,8 +1,8 @@
 import Layout from "@/components/layout/layout";
 import React, { useState } from 'react';
-import { Container, Form, Row, Col, Button, Card, Accordion, Alert } from "react-bootstrap";
+import { Container, Form, InputGroup, Row, Col, Button, Card, Accordion } from "react-bootstrap";
 import { useRouter } from 'next/router'
-import { FaUser, FaPlane, FaCreditCard } from 'react-icons/fa';
+import { FaUser, FaPlane,FaHotel, FaCreditCard } from 'react-icons/fa';
 import { BsCheckLg } from 'react-icons/bs'
 import axios from "axios";
 
@@ -10,55 +10,42 @@ import axios from "axios";
 const Checkout = () => {
     const router = useRouter();
     const [step, setStep] = useState(1);
-    const [mealType, setMealType] = useState('Veg');
-    const [seating, setSeating] = useState('basic');
+    const [roomType, setRoomType] = useState('');
+    const [boardType, setBoardType] = useState('');
     const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
+    const [aName, setaName] = useState('');
     const [address, setAddress] = useState('');
-    const [city, setCity] = useState('galle');
+    const [city, setCity] = useState('');
     const [zip, setZip] = useState('');
-    const [country, setCountry] = useState('LK');
-    const [show, setShow] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    const [country, setCountry] = useState('');
 
     const {
         id,
-        airline,
-        fromTerminal,
-        toTerminal,
-        flightDuration,
+        name,
         price,
-        departureTime,
-        landingTime,
-        stops,
-        flightClass,
-        allowedMaxBaggageWeight,
-        isRefundable,
-        departureDate,
-        landingDate,
-        fromCountry,
-        toCountry,
-        tripType
+        rooms,
+        featured,
+        checkInDate,
+        checkOutDate
     } = router.query
 
     const handleNextStep = () => {
         setStep(step + 1);
     };
 
-    const mealTypeHandler = (event) => {
-        setMealType(event.target.value);
+    const roomTypeHandler = (event) => {
+        setRoomType(event.target.value);
     };
-    const seatingHandler = (event) => {
-        setSeating(event.target.value);
+    const boardTypeHandler = (event) => {
+        setBoardType(event.target.value);
     };
 
     const emailhandler = (event) => {
         setEmail(event.target.value);
     };
 
-    const nameHandler = (event) => {
-        setName(event.target.value);
+    const aNameHandler = (event) => {
+        setaName(event.target.value);
     };
 
     const addressHandler = (event) => {
@@ -80,114 +67,26 @@ const Checkout = () => {
 
     const handlePaymentDetailsSubmit = async (event) => {
         event.preventDefault();
-
-        const emptyFields = [];
-
-        if (!airline) {
-            emptyFields.push('Airline');
-        }
-
-        if (!fromCountry) {
-            emptyFields.push('From country');
-        }
-
-        if (!toCountry) {
-            emptyFields.push('To country');
-        }
-
-        if (!price) {
-            emptyFields.push('Price');
-        }
-
-        if (!departureDate) {
-            emptyFields.push('Departure date');
-        }
-
-        if (!departureTime) {
-            emptyFields.push('Departure time');
-        }
-
-        if (!landingDate) {
-            emptyFields.push('Landing date');
-        }
-
-        if (!landingTime) {
-            emptyFields.push('Landing time');
-        }
-
-        if (!isRefundable) {
-            emptyFields.push('Refundable');
-        }
-
-        if (!tripType) {
-            emptyFields.push('Trip type');
-        }
-
-        if (!flightClass) {
-            emptyFields.push('Flight class');
-        }
-
-        if (!email) {
-            emptyFields.push('Email');
-        }
-
-        if (!name) {
-            emptyFields.push('Name');
-        }
-
-        if (!address) {
-            emptyFields.push('Address');
-        }
-
-        if (!city) {
-            emptyFields.push('City');
-        }
-
-        if (!zip) {
-            emptyFields.push('Zip');
-        }
-
-        if (!country) {
-            emptyFields.push('Country');
-        }
-
-        if (!mealType) {
-            emptyFields.push('Meal type');
-        }
-
-        if (!seating) {
-            emptyFields.push('Seating');
-        }
-
-        if (emptyFields.length > 0) {
-            setErrorMessage(`Please fill in the following fields: ${emptyFields.join(', ')}`);
-            return;
-        }
+        const finalData = { name, roomType, boardType, email, aName, address, city, zip, country };
 
         try {
-            const res = await axios.post("http://localhost:5000/flights/checkout", {
-                airline,
-                fromCountry,
-                toCountry,
-                price,
-                departureDate,
-                departureTime,
-                landingDate,
-                landingTime,
-                isRefundable,
-                tripType,
-                flightClass,
-                email,
+            const res = await axios.post("http://localhost:5000/hotels/checkout", {
                 name,
+                aName,
+                rooms,
+                price,
+                checkInDate,
+                checkOutDate,
+                featured,
+                email,
                 address,
                 city,
                 zip,
                 country,
-                mealType,
-                seating
+                roomType,
+                boardType
             });
             console.log(res);
-            setSuccessMessage("Your payment was successful!");
         } catch (error) {
             console.error(error);
         }
@@ -199,30 +98,26 @@ const Checkout = () => {
             <Container className="py-5">
                 <Card className="mb-5">
                     <Card.Body>
-                        <Card.Title className="fw-bold mb-4">Flight Details</Card.Title>
+                        <Card.Title className="fw-bold mb-4">Hotel Details</Card.Title>
                         <Card.Subtitle className="mb-3">
-                            <FaPlane className="me-2" />
-                            <span className="text-primary">Flight duration:</span> {flightDuration} hours
+                            <FaHotel className="me-2" />
+                            <span className="text-primary">Name:</span> {name} 
                         </Card.Subtitle>
                         <hr className="my-4" />
                         <div className="d-flex justify-content-between mb-3">
                             <div>
-                                <p className="fw-bold mb-1">Departure date:</p>
-                                <p className="text-secondary">{departureDate}</p>
+                                <p className="fw-bold mb-1">Check in date:</p>
+                                <p className="text-secondary">{checkInDate}</p>
                             </div>
                             <div>
-                                <p className="fw-bold mb-1">Departure time:</p>
-                                <p className="text-secondary">{departureTime}</p>
+                                <p className="fw-bold mb-1">Check out date:</p>
+                                <p className="text-secondary">{checkOutDate}</p>
                             </div>
                         </div>
                         <div className="d-flex justify-content-between mb-3">
                             <div>
-                                <p className="fw-bold mb-1">Landing date:</p>
-                                <p className="text-secondary">{landingDate}</p>
-                            </div>
-                            <div>
-                                <p className="fw-bold mb-1">Landing time:</p>
-                                <p className="text-secondary">{landingTime}</p>
+                                <p className="fw-bold mb-1">City :</p>
+                                <p className="text-secondary">{city}</p>
                             </div>
                         </div>
                         <hr className="my-4" />
@@ -232,32 +127,28 @@ const Checkout = () => {
                         </div>
                     </Card.Body>
                 </Card>
-                {errorMessage && <Alert variant="danger" dismissible>{errorMessage}</Alert>}
-                {successMessage && <Alert variant="success" dismissible>{successMessage}</Alert>}
                 <Accordion defaultActiveKey="0" className="mb-5">
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>
                             <FaUser className="me-2" />
-                            Traveller Details
+                            Agent Details
                         </Accordion.Header>
                         <Accordion.Body>
                             <Form>
                                 <Form.Group className="mb-3" controlId="mealType">
-                                    <Form.Label>Meal Type</Form.Label>
-                                    <Form.Control as="select" name="mealType" value={mealType} onChange={mealTypeHandler}>
-                                        <option value="Veg">Vegetarian</option>
-                                        <option value="nonVeg">Non-vegetarian</option>
-                                        <option value="halal">Halal</option>
-                                        <option value="kosher">Kosher</option>
+                                    <Form.Label>Room Type:</Form.Label>
+                                    <Form.Control as="select" name="roomType" value={email} onChange={roomTypeHandler}>
+                                        <option value="Deluxe">Deluxe</option>
+                                        <option value="Super Deluxe">Super Deluxe</option>
+                                        <option value="Suite">Suite</option>
                                     </Form.Control>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="seatType">
-                                    <Form.Label>Seat Type</Form.Label>
-                                    <Form.Control as="select" name="seating" value={seating} onChange={seatingHandler}>
-                                        <option value="basic">Basic</option>
-                                        <option value="window">Window</option>
-                                        <option value="isle">Isle</option>
-                                        <option value="middle">Middle</option>
+                                    <Form.Label>Board Type</Form.Label>
+                                    <Form.Control as="select" name="boardType" value={boardType} onChange={boardTypeHandler}>
+                                        <option value="Full board">Full board</option>
+                                        <option value="Half board">Half board</option>
+                                        <option value="Bread & Breakfast">Bread & Breakfast</option>
                                     </Form.Control>
                                 </Form.Group>
                                 <Button variant="primary" onClick={handleNextStep}>Next</Button>
@@ -279,7 +170,7 @@ const Checkout = () => {
 
                                     <Form.Group className="mb-3" controlId="formBasicName">
                                         <Form.Label>Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter your name" value={name} onChange={nameHandler} />
+                                        <Form.Control type="text" placeholder="Enter your name" value={aName} onChange={aNameHandler} />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicAddress">
@@ -289,21 +180,21 @@ const Checkout = () => {
 
                                     <Form.Group className="mb-3" controlId="seatType">
                                         <Form.Label>Country</Form.Label>
-                                        <Form.Control as="select" name="seating" value={country} onChange={countryHandler}>
-                                            <option value="LK">Sri Lanka</option>
-                                            <option value="NL">NetherLands</option>
-                                            <option value="DE">Germany</option>
-                                            <option value="US">United States</option>
+                                        <Form.Control as="select" name="Country" value={country} onChange={countryHandler}>
+                                            <option value="Sri Lanka">Sri Lanka</option>
+                                            <option value="NetherLands">NetherLands</option>
+                                            <option value="Germany">Germany</option>
+                                            <option value="United States">United States</option>
                                         </Form.Control>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="seatType">
                                         <Form.Label>City</Form.Label>
-                                        <Form.Control as="select" name="seating" value={city} onChange={cityHandler}>
-                                            <option value="galle">Galle</option>
-                                            <option value="CMB">Colombo</option>
-                                            <option value="california">California</option>
-                                            <option value="Toronto">Toronto</option>
+                                        <Form.Control as="select" name="city" value={city} onChange={cityHandler}>
+                                            <option value="Colombo">Colombo</option>
+                                            <option value="Matara">Matara</option>
+                                            <option value="Galle">Galle</option>
+                                            <option value="Hambanthota">Hambanthota</option>
                                         </Form.Control>
                                     </Form.Group>
 

@@ -5,7 +5,7 @@ import { FaRegClock, FaPlane } from "react-icons/fa";
 import { BsBag, BsCreditCard } from "react-icons/bs";
 import Link from "next/link";
 
-const BoFlightCard = ({ flight }) => {
+const BoFlightCard = ({ flight, removeItem }) => {
     return (
         <Row className="mt-4">
             <Col>
@@ -46,15 +46,16 @@ const BoFlightCard = ({ flight }) => {
                             <Col xs={8} />
                             <Col xs={8} />
                             <Col xs={8}>
-                                <Button variant="primary">
-                                    <Button variant="primary">
-                                        <Link
-                                            style={{ textDecoration: "none", color: "#000" }}
-                                            href={`/backoffice/flights/${flight._id}`}
-                                        >
-                                            View
-                                        </Link>
-                                    </Button>
+                                <Button variant="primary text-white">
+                                    <Link
+                                        style={{ textDecoration: "none", color: "#000" }}
+                                        href={`/backoffice/flights/${flight._id}`}
+                                    >
+                                        View
+                                    </Link>
+                                </Button>
+                                <Button variant="danger" className="mx-2 text-white" onClick={()=>{removeItem(flight._id)}}>
+                                        Remove
                                 </Button>
                             </Col>
                         </Row>

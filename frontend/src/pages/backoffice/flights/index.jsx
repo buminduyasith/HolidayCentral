@@ -13,21 +13,38 @@ export default function dashboard() {
 
     const axiosAuth = useAxiosAuth();
 
+    const removeItem = (id)=>{
+
+        axiosAuth
+        .delete(`api/v1/backoffice/product/flights/${id}`)
+        .then((res) => {
+            alert("item deleted")
+            getFlights()
+        })
+        .catch((error) => {
+            console.error("something went wrong");
+        });
+    }
+
+    const getFlights = ()=>{
+        setLoading(true);
+        axiosAuth
+        .get(`api/v1/backoffice/product/flights`)
+        .then((res) => {
+            console.log(res.data);
+            setFlights(res.data);
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error(error);
+            setLoading(false);
+        });
+    }
+
     useEffect(() => {
         const myTimeout = setTimeout(() => {
-            axiosAuth
-                .get(`api/v1/backoffice/product/flights`)
-                .then((res) => {
-                    console.log(res.data);
-                    setFlights(res.data);
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    console.error(error);
-                    setLoading(false);
-                });
-            setFlights(flights);
-        }, 5000);
+            getFlights()
+        }, 2000);
     }, []);
 
     return (
@@ -40,8 +57,8 @@ export default function dashboard() {
                     <div>Loading...</div>
                 ) : (
                     <>
-                        {flights.map((flight) => (
-                            <BoFlightCard key={flight._id} flight={flight} />
+                        {flights?.map((flight) => (
+                            <BoFlightCard key={flight._id} flight={flight} removeItem={removeItem} />
                         ))}
                     </>
                 )}

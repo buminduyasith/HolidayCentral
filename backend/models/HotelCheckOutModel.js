@@ -23,7 +23,6 @@ const hotelCheckOutSchema = new mongoose.Schema({
     },
     Price:{
         type: Number,
-        //required: true
     },
     checkInDate:{
         type: String,

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import Head from 'next/head';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 const Signin = () => {
   const emailRef = useRef(null);
@@ -34,6 +35,9 @@ const Signin = () => {
             <input type="password" className="form-control" id="password" placeholder="Password" ref={passwordRef} />
           </div>
           <button type="submit" className="btn btn-primary">Submit</button>
+          <Link href="/auth/resetpassword" passHref legacyBehavior>
+          <button className="btn btn-primary mx-2">Reset Password</button>
+          </Link>
         </form>
       </div>
     </>

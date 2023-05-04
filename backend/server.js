@@ -5,11 +5,19 @@ const flightController = require("./controllers/flightController");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const authController = require("./controllers/authController");
-const backOfficeController = require("./controllers/backOfficeController");
+const backOfficeFlightController = require("./controllers/backOfficeFlightController");
+const backOfficeHotelController = require("./controllers/backOfficeHotelController");
+const backOfficePackageController = require("./controllers/backOfficePackageController");
 const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticationMiddleware");
 const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
 const hotelController = require('./controllers/hotelController.js');
+const {swaggerOptions} = require("./utils/swagger");
+const swaggerJsdoc  = require('swagger-jsdoc')
+const swaggerUi  = require('swagger-ui-express')
+
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -27,6 +35,7 @@ app.get("/", (req, res, next) => {
     res.sendStatus(200);
 });
 
+
 app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => {
     res.status(201).json(req.user);
 });
@@ -34,8 +43,15 @@ app.get("/protected", isLoggedIn(userRoles.BACKOFFICEUSER), (req, res, next) => 
 app.use("/auth", authController);
 app.use("/flights", flightController);
 app.use('/hotels', require('./controllers/hotelController.js'));
-app.use('/api/v1/backoffice', backOfficeController);
 app.use('/packages', require('./controllers/packageController.js'));
+
+
+app.use('/api/v1/backoffice/product/flights',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeFlightController);
+app.use('/api/v1/backoffice/product/hotels',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeHotelController);
+app.use('/api/v1/backoffice/product/packages',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController);
+
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(notFound);
 app.use(errorHandlers);
 

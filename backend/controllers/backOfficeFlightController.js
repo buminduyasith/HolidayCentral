@@ -4,8 +4,7 @@ const multer = require("multer");
 const path = require("path");
 
 const userRoles = require("../enums/userRoles");
-const { InsertFlightDetails } = require("../services/backofficeuserService");
-const { GetAllFlights, GetFlightById, DeleteFlightById, UpdateFlightById } = require("../services/backofficeService")
+const { GetAllFlights, GetFlightById, DeleteFlightById, UpdateFlightById, InsertFlightDetails } = require("../services/backofficeFlightService")
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -32,17 +31,14 @@ const upload = multer({
     },
 });
 
-router.get("/", (req, res) => {
-    res.send("admin bo");
-});
-
-router.post("/product/flights", upload.single("file"), async (req, res, next) => {
+router.post("/", upload.single("file"), async (req, res, next) => {
     try {
         //const csvPath = req.file.path
+        console.log("req path", req?.file?.path)
         const filePath = path.join(process.cwd(), req.file.path);
         console.log("csvPath", filePath);
-        await InsertFlightDetails(filePath);
-        res.send(filePath);
+        var data = await InsertFlightDetails(filePath);
+        res.sendStatus(201);
     } catch (error) {
         console.log("flights details save failed", error)
         res.status(400)
@@ -50,7 +46,7 @@ router.post("/product/flights", upload.single("file"), async (req, res, next) =>
     }
 });
 
-router.get("/product/flights", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
     try {
 
         var flights = await GetAllFlights()
@@ -67,7 +63,7 @@ router.get("/product/flights", async (req, res, next) => {
     }
 });
 
-router.get("/product/flights/:id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
 
         if(!req.params.id){
@@ -87,7 +83,7 @@ router.get("/product/flights/:id", async (req, res, next) => {
     }
 });
 
-router.delete("/product/flights/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     try {
 
         if(!req.params.id){
@@ -106,7 +102,7 @@ router.delete("/product/flights/:id", async (req, res, next) => {
     }
 });
 
-router.put("/product/flights/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
     try {
 
         if(!req.params.id){

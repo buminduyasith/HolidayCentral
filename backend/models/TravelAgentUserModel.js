@@ -9,7 +9,7 @@ const travelAgentUserSchema = new mongoose.Schema({
         type: String,
         required : [true, "LastName required"]
     },
-    phoeNumber :  {
+    phoneNumber :  {
         type: String,
         required : [true, "PhoeNumber required"]
     },

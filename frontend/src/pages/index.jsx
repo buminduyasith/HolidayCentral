@@ -13,7 +13,7 @@ export default function Home() {
       formData.append('file', file);
   
       try {
-        const res = await axios.post('http://localhost:5000/api/v1/backoffice/flights', formData);
+        const res = await axios.post('http://localhost:5000/api/v1/backoffice/product/flights', formData);
         console.log(res.data);
       } catch (err) {
         console.error(err);

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import {userRoles} from "@/enums/userRoles";
 
-const Signin = () => {
+const callback = () => {
   const router = useRouter();
   const { data: session, status } = useSession()
 
@@ -28,4 +28,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default callback;

@@ -95,7 +95,7 @@ async function GenerateResetPasswordOneTimeLink(baseUrl, user){
     }
     const token = jwt.sign(userDto, process.env.RESETPASSWORDTOKENSECRET, { expiresIn: '10m' });
 
-    const url = baseUrl + `reset-password?token=${token}`
+    const url = baseUrl + `auth/resetcallback?token=${token}`
     return url;
 }
 

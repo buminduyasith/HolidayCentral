@@ -19,7 +19,8 @@ async function verifyTokenAndSetUser(req, res, next) {
         }
     } catch (error) {
         console.log(error);
-        next();
+        res.status(400)
+        next(error);
     }
 }
 

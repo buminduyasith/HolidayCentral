@@ -54,11 +54,12 @@ async function getAllHotels() {
 async function getSearchAllHotels(req) {
     let results;
     const searchCriteria = {};
+    console.log("search",req.query)
 
-    const queryFields = ['city', 'checkInDate', 'checkOutDate', 'rating', 'price', 'facilities'];
+    const queryFields = ['city', 'rating','checkInDate','checkOutDate' ];
     for (const field of queryFields) {
         if (req.query[field]) {
-            if (field === 'departureDate' || field === 'landingDate') {
+            if (field === 'checkInDate' || field === 'checkOutDate') {
                 searchCriteria[field] = new Date(req.query[field]);
             } else {
                 searchCriteria[field] = req.query[field];

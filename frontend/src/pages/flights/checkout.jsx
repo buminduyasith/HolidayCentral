@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/layout";
 import React, { useState } from 'react';
-import { Container, Form, Row, Col, Button, Card, Accordion, Alert } from "react-bootstrap";
+import { Container, Form, Button, Card, Accordion, Alert } from "react-bootstrap";
 import { useRouter } from 'next/router'
 import { FaUser, FaPlane, FaCreditCard } from 'react-icons/fa';
 import { BsCheckLg } from 'react-icons/bs'

@@ -11,7 +11,6 @@ router.use(logger);
 router.get("/allflights", async (req, res, next) => {
     try {
         const response = await getAllFlights();
-        console.log("res", response);
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
@@ -22,7 +21,6 @@ router.get("/allflights", async (req, res, next) => {
 router.get("/searchflights", async (req, res, next) => {
     try {
         const response = await getSearchAllFlights(req)
-        console.log("res", response);
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({ error: "Invalid input" });
@@ -33,7 +31,6 @@ router.get("/searchflights", async (req, res, next) => {
 router.post("/checkout", async (req, res, next) => {
     try {
         const response = await createFlightCheckoutRecord(req)
-        console.log("res", response);
         res.status(201).send("Flight checkout record created successfully");
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });

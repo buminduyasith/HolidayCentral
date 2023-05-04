@@ -1,14 +1,11 @@
 const flightModel = require('../models/FlightModel')
 const FlightCheckoutModel = require('../models/FlightCheckoutModel')
-const userRoles = require("../enums/userRoles");
-const { v4: uuidv4 } = require('uuid');
 
 async function getAllFlights() {
     let results;
 
     await flightModel.find({})
         .then((docs) => {
-            console.log("docs-->", docs);
             results = docs
         })
         .catch((error) => {
@@ -50,26 +47,8 @@ async function getSearchAllFlights(req) {
 
 }
 
-async function getAllFlights() {
-    let results;
-
-    await flightModel.find({})
-        .then((docs) => {
-            console.log("docs-->", docs);
-            results = docs
-        })
-        .catch((error) => {
-            console.error(error);
-            return error;
-        });
-
-    return results
-
-}
-
 async function createFlightCheckoutRecord(req) {
     let results;
-    console.log("req--->", req)
     try {
         const newFlightCheckout = new FlightCheckoutModel({
             airline: req.body.airline,

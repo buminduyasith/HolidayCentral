@@ -9,6 +9,65 @@ const boSignupSchema = require("../schemas/boSignupSchema");
 const taSignupSchema = require("../schemas/travelAdgentSignupSchema");
 const userSigninSchema = require("../schemas/userSigninSchema");
 
+
+/**
+ * @openapi
+ * /signin:
+ *   post:
+ *     summary: Endpoint for signing in a user.
+ *     requestBody:
+ *       description: User's email and password.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       '200':
+ *         description: A successful response containing user's email, id, token, and expire time.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   description: User's email
+ *                 id:
+ *                   type: string
+ *                   description: User's ID
+ *                 token:
+ *                   type: string
+ *                   description: Authentication token for the user
+ *                 expiretime:
+ *                   type: number
+ *                   description: Token expiry time in seconds
+ *       '401':
+ *         description: Unauthorized error response if email or password is invalid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                 stack:
+ *                   type: string
+ *                   description: Error stack trace
+ *     tags:
+ *       - Authentication
+ */
 router.post("/signin", async (req, res, next) => {
     try {
         

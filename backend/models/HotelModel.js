@@ -36,7 +36,6 @@ const HotelSchema = new mongoose.Schema({
     },
     Price:{
         type: Number,
-        //required: true
     },
     checkInDate:{
         type: String,

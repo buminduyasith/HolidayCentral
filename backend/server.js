@@ -48,7 +48,7 @@ app.use('/hotels', require('./controllers/hotelController.js'));
 app.use('/api/v1/backoffice/product/flights',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeFlightController);
 app.use('/api/v1/backoffice/product/hotels',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeHotelController);
 app.use('/api/v1/backoffice/product/packages',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController); 
-
+app.use('/packages', require('./controllers/packageController.js'));
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(notFound);
 app.use(errorHandlers);
@@ -64,6 +64,3 @@ mongoose
     .catch((error) => {
         console.log("not connected to db", error);
     });
-
-
-app.listen(5500)

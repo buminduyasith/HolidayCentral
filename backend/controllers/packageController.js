@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 const { getallPackages, getSearchallpackages } = 
  require('../services/packageService')
 
@@ -16,7 +17,7 @@ router.get("/allPackages",async (req, res, next) => {
     }
 });
 
-router.get("/searchpackages", async (req, res, next) => {
+router.get("/searchPackages", async (req, res, next) => {
     try {
         const response = await getSearchallpackages(req)
         console.log("res", response);

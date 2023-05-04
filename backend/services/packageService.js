@@ -73,9 +73,39 @@ async function getallPackages() {
   return results;
 }
 
+async function createPackageCheckoutRecord(req) {
+  let results;
+  console.log("req--->", req)
+  try {
+      const newpackageCheckout = new packageCheckoutModel({
+        destination: req.body.destination,
+        duration: req.body.duration,
+        numberOfTravelers: req.body.numberOfTravelers,
+        specialty: req.body.specialty,
+        packageName: req.body.packageName,
+        price: req.body.price,
+        tourLocation: req.body.tourLocation,
+        packageRating: req.body.packageRating,
+        packageDescription: req.body.packageDescription,
+        contactEmail: req.body.contactEmail,
+         
+      });
+
+      const result = await newPackageCheckout.save();
+      results = result
+      console.log("New package checkout record created:", result);
+
+  } catch (err) {
+      console.error("Error creating package checkout record:", err);
+      return err;
+  }
+
+  return results
+}
 
 
 module.exports = {
   getallPackages,
-  getSearchallpackages
+  getSearchallpackages,
+  createPackageCheckoutRecord,
 };

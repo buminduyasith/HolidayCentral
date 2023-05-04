@@ -7,7 +7,7 @@ const packageSchema = new mongoose.Schema({
     },
     duration:  {
         type: String,
-        required : [true, "Travel Star date required"]
+        required : [true, "Travel duration required"]
     },
     numberOfTravelers :  {
         type: String,

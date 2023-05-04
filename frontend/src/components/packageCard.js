@@ -70,7 +70,7 @@ const PackageCard = ({ pack }) => {
                                     <Link
                                         style={{ textDecoration: 'none', color: '#000' }}
                                         href={{
-                                            pathname: "./checkout",
+                                            pathname: "./checkoutPackage",
                                             query: {
                                                 destination,
                                                 // travelStartDate,
@@ -90,7 +90,7 @@ const PackageCard = ({ pack }) => {
                                                   // featured
                                             }
                                         }}
-                                        as={'hotels/hotelscheckout'}
+                                        as={'packages/checkoutPackage'}
                                     >Checkout</Link>
                                 </Button>
                             </Col>

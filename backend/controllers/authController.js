@@ -9,10 +9,6 @@ const boSignupSchema = require("../schemas/boSignupSchema");
 const taSignupSchema = require("../schemas/travelAdgentSignupSchema");
 const userSigninSchema = require("../schemas/userSigninSchema");
 
-router.get("/", (req, res) => {
-    res.sendStatus(200);
-});
-
 router.post("/signin", async (req, res, next) => {
     try {
         
@@ -32,7 +28,6 @@ router.post("/signin", async (req, res, next) => {
 router.post("/backoffice/signup", async (req, res, next) => {
     try {
 
-
         const validationResult = await boSignupSchema.validateAsync( req.body);
         console.log("bo signup validation Result", validationResult)
 
@@ -42,7 +37,7 @@ router.post("/backoffice/signup", async (req, res, next) => {
         if (response.isError) {
             console.log("backoffice user sign up failed", req.body, response.msg);
             const error = new Error(response.msg);
-            res.status(409);
+            res.status(400);
             return next(error);
         }
         await CreateBackofficeUser(req.body, response.data);
@@ -65,7 +60,7 @@ router.post("/travelagent/signup", async (req, res, next) => {
         if (createUserResponse.isError) {
             console.log("travel agent user sign up failed", req.body, createUserResponse.msg);
             const error = new Error(createUserResponse.msg);
-            res.status(409);
+            res.status(400);
             return next(error);
         }
         await CreateTravelAgenteUser(req.body, createUserResponse.data);

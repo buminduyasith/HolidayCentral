@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "lib/axios";
 import { useRouter } from "next/router";
 import BONavBar from "@/components/navbar/BONavBar";
+import useAxiosAuth from "lib/hooks/useAxiosAuth";
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -36,6 +37,8 @@ const initialValues = {
 
 export default function FlightDetail() {
     const router = useRouter();
+    
+    const axiosAuth = useAxiosAuth();
     const [hotelIdId, setHotelId] = useState(null);
     const [isloading, setLoading] = useState(true);
 
@@ -62,7 +65,7 @@ export default function FlightDetail() {
 
     useEffect(() => {
         if (hotelIdId) {
-            axios
+            axiosAuth
                 .get(`api/v1/backoffice/product/hotels/${router.query.hotelId}`)
                 .then((res) => {
                     console.log(res.data);

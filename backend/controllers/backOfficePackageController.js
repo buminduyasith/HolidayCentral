@@ -47,7 +47,8 @@ router.get("/", async (req, res, next) => {
     try {
 
         var packages = await GetAllPackages()
-        if(!packages){
+        console.log("packages", packages)
+        if(packages.length === 0){
             res.status(404).json({ message: 'packages not found' });
             return;
         }

@@ -50,7 +50,7 @@ router.get("/", async (req, res, next) => {
     try {
 
         var flights = await GetAllFlights()
-        if(!flights){
+        if(flights.length === 0){
             res.status(404).json({ message: 'Flights not found' });
             return;
         }

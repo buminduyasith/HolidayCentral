@@ -50,7 +50,7 @@ router.get("/", async (req, res, next) => {
     try {
 
         var hotels = await GetAllHotels()
-        if(!hotels){
+        if(hotels.length === 0){
             res.status(404).json({ message: 'hotels not found' });
             return;
         }

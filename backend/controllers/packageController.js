@@ -10,7 +10,7 @@ router.get("/allPackages",async (req, res, next) => {
     try {
         const response = await getallPackages();
         console.log("res", response);
-        res.send(response).Status(200);
+        res.send(response).status(200);
     } catch (error) {
         res.status(500);
         next(error);

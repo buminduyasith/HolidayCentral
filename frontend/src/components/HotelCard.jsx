@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Row, Button } from 'react-bootstrap';
-import { FaRegClock, FaPlane ,FaHotel } from 'react-icons/fa';
+import { FaRegClock, FaPlane, FaHotel } from 'react-icons/fa';
 import { BsBag, BsCreditCard } from 'react-icons/bs';
 import Link from "next/link";
 
@@ -53,7 +53,7 @@ const HotelCard = ({ hotel }) => {
                                     <Link
                                         style={{ textDecoration: 'none', color: '#000' }}
                                         href={{
-                                            pathname: "./checkout",
+                                            pathname: "/traveladgent/hotels/checkout",
                                             query: {
                                                 id: _id,
                                                 name,
@@ -72,7 +72,7 @@ const HotelCard = ({ hotel }) => {
                                                 featured
                                             }
                                         }}
-                                        as={'hotels/hotelscheckout'}
+                                        as={'/traveladgent/hotels/checkout'}
                                     >Checkout</Link>
                                 </Button>
                             </Col>

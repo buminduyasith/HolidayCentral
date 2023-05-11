@@ -12,9 +12,9 @@ const { verifyTokenAndSetUser, isLoggedIn } = require("./middlewares/authenticat
 const { errorHandlers, notFound } = require("./middlewares/commonMiddleware");
 const userRoles = require('./enums/userRoles')
 const hotelController = require('./controllers/hotelController.js');
-const {swaggerOptions} = require("./utils/swagger");
-const swaggerJsdoc  = require('swagger-jsdoc')
-const swaggerUi  = require('swagger-ui-express')
+const { swaggerOptions } = require("./utils/swagger");
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -46,9 +46,9 @@ app.use('/hotels', require('./controllers/hotelController.js'));
 app.use('/packages', require('./controllers/packageController.js'));
 
 
-app.use('/api/v1/backoffice/product/flights',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeFlightController);
-app.use('/api/v1/backoffice/product/hotels',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeHotelController);
-app.use('/api/v1/backoffice/product/packages',isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController);
+app.use('/api/v1/backoffice/product/flights', isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeFlightController);
+app.use('/api/v1/backoffice/product/hotels', isLoggedIn(userRoles.BACKOFFICEUSER), backOfficeHotelController);
+app.use('/api/v1/backoffice/product/packages', isLoggedIn(userRoles.BACKOFFICEUSER), backOfficePackageController);
 
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

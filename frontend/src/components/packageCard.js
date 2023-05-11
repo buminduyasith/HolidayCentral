@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Row, Button } from 'react-bootstrap';
-import { FaRegClock, FaPlane ,FaHotel } from 'react-icons/fa';
+import { FaRegClock, FaPlane, FaHotel } from 'react-icons/fa';
 import { BsBag, BsCreditCard } from 'react-icons/bs';
 import Link from "next/link";
 
@@ -9,17 +9,17 @@ const PackageCard = ({ pack }) => {
     console.log("pack-->", pack)
 
     const {
-      destination,
-      duration,
-    //   travelEndDate,
-      numberOfTravelers,
-      specialty,
-      packageName,
-      price,
-      tourLocation,
-      packageRating,
+        destination,
+        duration,
+        //   travelEndDate,
+        numberOfTravelers,
+        specialty,
+        packageName,
+        price,
+        tourLocation,
+        packageRating,
         //class: flightClass,
-       // rooms,
+        // rooms,
         // price,
         packageDescription,
         contactEmail
@@ -70,7 +70,7 @@ const PackageCard = ({ pack }) => {
                                     <Link
                                         style={{ textDecoration: 'none', color: '#000' }}
                                         href={{
-                                            pathname: "./checkoutPackage",
+                                            pathname: "/traveladgent/packages/checkout",
                                             query: {
                                                 destination,
                                                 // travelStartDate,
@@ -81,16 +81,16 @@ const PackageCard = ({ pack }) => {
                                                 price,
                                                 tourLocation,
                                                 packageRating,
-                                                  //class: flightClass,
-                                                 // rooms,
-                                                  // price,
-                                                  packageDescription,
-                                                  contactEmail
-                                                  // facilities,
-                                                  // featured
+                                                //class: flightClass,
+                                                // rooms,
+                                                // price,
+                                                packageDescription,
+                                                contactEmail
+                                                // facilities,
+                                                // featured
                                             }
                                         }}
-                                        as={'packages/checkoutPackage'}
+                                        as={'/traveladgent/packages/checkoutPackage'}
                                     >Checkout</Link>
                                 </Button>
                             </Col>
@@ -105,7 +105,7 @@ const PackageCard = ({ pack }) => {
 const packageList = ({ packageD }) => {
 
     if (!packageD) {
-        console.log("01-->",packageD)
+        console.log("01-->", packageD)
         return <p>Loading packages...</p>;
     }
 

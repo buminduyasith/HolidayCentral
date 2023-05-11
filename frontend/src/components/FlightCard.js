@@ -69,7 +69,7 @@ const FlightCard = ({ flight }) => {
                                     <Link
                                         style={{ textDecoration: 'none', color: '#000' }}
                                         href={{
-                                            pathname: "./checkout",
+                                            pathname: "/traveladgent/flights/checkout",
                                             query: {
                                                 id: _id,
                                                 airline,
@@ -90,7 +90,7 @@ const FlightCard = ({ flight }) => {
                                                 tripType
                                             }
                                         }}
-                                        as={'flights/flightscheckout'}
+                                        as={'/traveladgent/flights/checkout'}
                                     >Checkout</Link>
                                 </Button>
                             </Col>

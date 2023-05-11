@@ -128,6 +128,7 @@ export default function FlightDetail() {
                         initialValues={initialValues}
                         validationSchema={validationSchema}
                         onSubmit={async (values, { setSubmitting }) => {
+                            console.log(JSON.stringify(values, null, 2));
                              axiosAuth
                             .put(`api/v1/backoffice/product/flights/${flightId}`, values)
                             .then((response) => {

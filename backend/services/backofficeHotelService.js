@@ -38,11 +38,14 @@ async function InsertHotelDetails(csvPath) {
         fs.createReadStream(csvPath).pipe(parser);
     });
 
+    hotelRecords.map((hotelRecord) => {
+        console.log(hotelRecord)
+    });
     const hotelModels = hotelRecords.map((hotelRecord) => new hotelModel(hotelRecord));
     const results = await hotelModel.insertMany(hotelModels);
 
     console.log("hotels detail results", results);
-    return results;
+    return hotelRecords;
 }
 
 module.exports = {

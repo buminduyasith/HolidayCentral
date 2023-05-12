@@ -4,6 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import axios from "lib/axios";
+import Loader from "@/components/loader";
 
 const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email address").required("Email is required"),
@@ -39,7 +40,7 @@ const fieldsSet = [
 
 const resetcallback = () => {
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [code, setCode] = useState(null);
 
     useEffect(() => {
@@ -51,64 +52,68 @@ const resetcallback = () => {
     useEffect(() => {
         if (code) {
             console.log("code", code);
-            setLoading(false);
         }
     }, [code]);
 
     return (
         <>
-            {!loading && (
-                <div className="container">
+             <div className="container">
                     <h1 className="text-center">Reset password</h1>
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                        onSubmit={async (values, { setSubmitting }) => {
-                            console.log(JSON.stringify(values, null, 2));
+                    {loading === true && <Loader />}
+                    {loading === false && (
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={validationSchema}
+                            onSubmit={async (values, { setSubmitting }) => {
+                                console.log(JSON.stringify(values, null, 2));
+                                setLoading(true)
 
-                            const user = {
-                                email:values.email,
-                                password:values.password
-                            }
+                                const user = {
+                                    email: values.email,
+                                    password: values.password,
+                                };
 
-                            console.log(user)
+                                console.log(user);
 
-                            const url = `auth/password_reset/${code}`
+                                const url = `auth/password_reset/${code}`;
 
-                            axios
-                                .post(url, user)
-                                .then((response) => {
-                                    console.log(response.data);
-                                    alert("user created");
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                    alert("something went wrong");
-                                });
-                            setSubmitting(false);
-                        }}
-                    >
-                        <Form>
-                            {fieldsSet.map((field) => (
-                                <div className="form-group mt-2" key={field.id}>
-                                    <label htmlFor="fromTerminal">{field.userFriendlyName}</label>
-                                    <Field type={field.type} name={field.id} className="form-control" />
-                                    <ErrorMessage
-                                        name={field.id}
-                                        component="label"
-                                        className="form-label text-danger"
-                                    />
+                                axios
+                                    .post(url, user)
+                                    .then((response) => {
+                                        console.log(response.data);
+                                        setLoading(false)
+                                        alert("password updated");
+                                        router.push("/auth/signin");
+                                    })
+                                    .catch((error) => {
+                                        console.log(false);
+                                        setLoading(true)
+                                        alert("something went wrong");
+                                    });
+                                setSubmitting(false);
+                            }}
+                        >
+                            <Form>
+                                {fieldsSet.map((field) => (
+                                    <div className="form-group mt-2" key={field.id}>
+                                        <label htmlFor="fromTerminal">{field.userFriendlyName}</label>
+                                        <Field type={field.type} name={field.id} className="form-control" />
+                                        <ErrorMessage
+                                            name={field.id}
+                                            component="label"
+                                            className="form-label text-danger"
+                                        />
+                                    </div>
+                                ))}
+                                <div className="row">
+                                    <button className="btn btn-lg btn-primary mt-2" type="submit">
+                                        Confirm
+                                    </button>
                                 </div>
-                            ))}
-                            <div className="row">
-                                <button className="btn btn-lg btn-primary mt-2" type="submit">
-                                    Confirm
-                                </button>
-                            </div>
-                        </Form>
-                    </Formik>
+                            </Form>
+                        </Formik>
+                    )}
                 </div>
-            )}
         </>
     );
 };

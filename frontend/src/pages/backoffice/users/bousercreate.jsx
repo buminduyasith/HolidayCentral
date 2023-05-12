@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "lib/axios";
 import { useRouter } from "next/router";
 import BONavBar from "@/components/navbar/BONavBar";
+import Loader from "@/components/loader";
 
 const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email address").required("Email is required"),
@@ -20,7 +21,7 @@ const initialValues = {
 };
 
 export default function bousercreate() {
-    const [isloading, setLoading] = useState(true);
+    const [isloading, setLoading] = useState(false);
 
     const fieldsSet = [
         {
@@ -50,39 +51,49 @@ export default function bousercreate() {
             <BONavBar />
             <div className="container">
                 <h1 className="text-center">Create backoffice user </h1>
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={async (values, { setSubmitting }) => {
-                        console.log(JSON.stringify(values, null, 2));
-                        axios
-                            .post("auth/backoffice/signup", values)
-                            .then((response) => {
-                                console.log(response.data);
-                                alert("user created")
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                                alert("something went wrong")
-                            });
-                        setSubmitting(false);
-                    }}
-                >
-                    <Form>
-                        {fieldsSet.map((field) => (
-                            <div className="form-group mt-2" key={field.id}>
-                                <label htmlFor="fromTerminal">{field.userFriendlyName}</label>
-                                <Field type={field.type} name={field.id} className="form-control" />
-                                <ErrorMessage name={field.id} component="label" className="form-label text-danger" />
+                {isloading === true && <Loader />}
+                {isloading === false && (
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={async (values, { setSubmitting }) => {
+                            console.log(JSON.stringify(values, null, 2));
+                            setLoading(true);
+                            axios
+                                .post("auth/backoffice/signup", values)
+                                .then((response) => {
+                                    console.log(response.data);
+                                    setLoading(false);
+                                    alert("user created");
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    setLoading(false);
+                                    alert("something went wrong");
+                                });
+                            setSubmitting(false);
+                        }}
+                    >
+                        <Form>
+                            {fieldsSet.map((field) => (
+                                <div className="form-group mt-2" key={field.id}>
+                                    <label htmlFor="fromTerminal">{field.userFriendlyName}</label>
+                                    <Field type={field.type} name={field.id} className="form-control" />
+                                    <ErrorMessage
+                                        name={field.id}
+                                        component="label"
+                                        className="form-label text-danger"
+                                    />
+                                </div>
+                            ))}
+                            <div className="row">
+                                <button className="btn btn-lg btn-primary mt-2" type="submit">
+                                    Submit
+                                </button>
                             </div>
-                        ))}
-                        <div className="row">
-                            <button className="btn btn-lg btn-primary mt-2" type="submit">
-                                Submit
-                            </button>
-                        </div>
-                    </Form>
-                </Formik>
+                        </Form>
+                    </Formik>
+                )}
             </div>
         </>
     );

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import useAxiosAuth from "lib/hooks/useAxiosAuth";
 import BONavBar from "@/components/navbar/BONavBar";
-import axios from "axios";
 
 export default function index() {
     const { data: session } = useSession();
@@ -15,9 +14,10 @@ export default function index() {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", file);
+        console.log("file", file)
 
         try {
-            const res = await axios.post("http://localhost:5000/api/v1/backoffice/product/flights", formData);
+            const res = await axiosAuth.post("api/v1/backoffice/product/flights", formData);
             console.log(res.data);
             alert("file uploaded successfully")
         } catch (err) {

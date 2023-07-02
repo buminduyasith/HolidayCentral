@@ -18,7 +18,7 @@ export default function index() {
 
         try {
             
-            const res = await axios.post(`http://localhost:5000/api/v1/backoffice/product/hotels`, formData);
+            const res = await axiosAuth.post(`api/v1/backoffice/product/hotels`, formData);
             console.log(res.data);
             alert("file uploaded successfully")
         } catch (err) {

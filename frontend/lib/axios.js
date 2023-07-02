@@ -7,5 +7,4 @@ export default axios.create({
 
 export const axiosAuth = axios.create({
     baseURL:"http://localhost:5000/",
-    headers: {"Content-Type" : "application/json"}
 })

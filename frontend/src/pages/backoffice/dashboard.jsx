@@ -6,9 +6,6 @@ import Link from "next/link";
 export default function dashboard() {
     const { data: session } = useSession();
 
-    useEffect(()=>{
-        console.log(session?.user)
-    },[session])
     return (
         <>
             <BONavBar />

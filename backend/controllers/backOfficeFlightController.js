@@ -33,7 +33,7 @@ const upload = multer({
 
 router.post("/", upload.single("file"), async (req, res, next) => {
     try {
-        //const csvPath = req.file.path
+        const csvPath = req.file.path
         console.log("req path", req?.file?.path)
         const filePath = path.join(process.cwd(), req.file.path);
         console.log("csvPath", filePath);
@@ -50,7 +50,7 @@ router.get("/", async (req, res, next) => {
     try {
 
         var flights = await GetAllFlights()
-        if(!flights){
+        if(flights.length === 0){
             res.status(404).json({ message: 'Flights not found' });
             return;
         }
